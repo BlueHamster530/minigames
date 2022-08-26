@@ -24,6 +24,9 @@ public class SKALPlayerInfomation : MonoBehaviour
     [SerializeField]
     GameObject DrinkImage;
 
+    [SerializeField]
+    Animation Anim;
+
 
     private void Start()
     {
@@ -44,6 +47,7 @@ public class SKALPlayerInfomation : MonoBehaviour
     private void Update()
     {
         ButtonInput();
+        //Anim.SetFloat("MoveSpeed", pinput.fNowSpeed);
         if (skalManager.bIsRaglanok == true)
         {
             nintoxicationStack = 5;
@@ -55,7 +59,6 @@ public class SKALPlayerInfomation : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.A))
             {
-                print("ADW");
                 PressAButton();
             }
             if (Input.GetKeyDown(KeyCode.S))
@@ -141,6 +144,18 @@ public class SKALPlayerInfomation : MonoBehaviour
             pinput.fCanMoveTime = 1.0f;
             InitDrinks();
         }
+    }
+    public void Anim_DrinkEvent()
+    {
+
+    }
+    public void Anim_StunedEvent()
+    {
+
+    }
+    public void Anim_PickUpEvent()
+    {
+
     }
     private void ReFillDrink()
     {

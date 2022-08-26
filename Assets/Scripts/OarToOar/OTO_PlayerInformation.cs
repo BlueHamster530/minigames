@@ -13,6 +13,7 @@ public class OTO_PlayerInformation : MonoBehaviour
     OTO_UiController UiController;
     Vector3 vOriginPos;
 
+    GameObject InBoatObject;
 
     bool IsRaglanokBuffOn;
     [SerializeField]
@@ -113,13 +114,17 @@ public class OTO_PlayerInformation : MonoBehaviour
                         print(Hit.transform.name);
                         if (!Hit.collider.CompareTag("FallGround"))
                         {
-                            if (Hit.collider.CompareTag("OTO_Paddle"))
+                            if (InBoatObject != Hit.transform.parent.gameObject)
                             {
-                                AddScore(4);
-                            }
-                            else if (Hit.collider.CompareTag("OTO_Boat"))
-                            {
-                                AddScore(2);
+                                if (Hit.collider.CompareTag("OTO_Paddle"))
+                                {
+                                    AddScore(4);
+                                }
+                                else if (Hit.collider.CompareTag("OTO_Boat"))
+                                {
+                                    AddScore(2);
+                                }
+                                InBoatObject = Hit.transform.parent.gameObject;
                             }
                         }
                         bIsJumped = false;

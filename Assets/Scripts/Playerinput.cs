@@ -21,6 +21,7 @@ public class Playerinput : MonoBehaviour
 
     float fAccSpeed = 1.0f;
 
+    public float fNowSpeed;
     public bool IsCanMove { get; set; } = false;
     public float fCanMoveTime { get; set; } = 0.0f;
     public int GetPlayerInDex()
@@ -39,6 +40,7 @@ public class Playerinput : MonoBehaviour
         IsCanMove = true;
         fCanMoveTime = 3.0f;
         fAccSpeed = 1.0f;
+        fNowSpeed = 0;
         print("PAD" + PlayerIndex.ToString());
     }
     public void SetAccSpeed(float _value)
@@ -67,6 +69,14 @@ public class Playerinput : MonoBehaviour
         if (Dir != Vector3.zero)
         {
             transform.forward = Dir;
+            if(IsCanMove == true)
+              fNowSpeed = 1.0f;
+            else
+              fNowSpeed = 0.0f;
+        }
+        else
+        {
+            fNowSpeed = 0.0f;
         }
         if (Dir.x != 0)
         {
@@ -94,6 +104,14 @@ public class Playerinput : MonoBehaviour
         if (Dir != Vector3.zero)
         {
             transform.forward = Dir;
+            if (IsCanMove == true)
+                fNowSpeed = 1.0f;
+            else
+                fNowSpeed = 0.0f;
+        }
+        else
+        {
+            fNowSpeed = 0.0f;
         }
         if (Dir.x != 0)
         {
