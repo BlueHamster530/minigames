@@ -49,30 +49,39 @@ public class Playerinput : MonoBehaviour
     }
     private void DebuffFunction()
     {
-        if (IsCanMove == true)
+        if (IsCanMove == false)
         {
             fCanMoveTime -= Time.deltaTime;
             if (fCanMoveTime <= 0)
             {
                 fCanMoveTime = 0;
-                IsCanMove = false;
+                IsCanMove = true;
             }
         }
     }
     private void KeyboardInput()
     {
         CheckGrounded();
-        if (IsCanMove) return;
+        if (IsCanMove == false)
+        {
+            Dir = Vector3.zero;
+            fNowSpeed = 0.0f;
+            return;
+        }
 
         Dir.x = Input.GetAxisRaw("Horizontal");
         Dir.z = Input.GetAxisRaw("Vertical");
         if (Dir != Vector3.zero)
         {
             transform.forward = Dir;
-            if(IsCanMove == true)
-              fNowSpeed = 1.0f;
+            if (IsCanMove == true)
+            {
+                fNowSpeed = 1.0f;
+            }
             else
-              fNowSpeed = 0.0f;
+            {
+                fNowSpeed = 0.0f;
+            }
         }
         else
         {
@@ -80,11 +89,11 @@ public class Playerinput : MonoBehaviour
         }
         if (Dir.x != 0)
         {
-            rigid.AddForce(Vector3.right * Dir.x * Speed * fAccSpeed * Time.deltaTime);
+            rigid.AddForce(Vector3.right * Dir.x * Speed * fAccSpeed * Time.deltaTime* fNowSpeed);
         }
         if (Dir.z != 0)
         {
-            rigid.AddForce(Vector3.forward * Dir.z * Speed * fAccSpeed * Time.deltaTime);
+            rigid.AddForce(Vector3.forward * Dir.z * Speed * fAccSpeed * Time.deltaTime* fNowSpeed);
         }
 
       //  rigid.velocity = new Vector3(Dir.x, 0, Dir.z) * Speed * SpeefAcc * Time.deltaTime;

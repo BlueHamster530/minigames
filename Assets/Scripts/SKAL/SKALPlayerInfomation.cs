@@ -25,18 +25,19 @@ public class SKALPlayerInfomation : MonoBehaviour
     GameObject DrinkImage;
 
     [SerializeField]
-    Animation Anim;
+    Animator Anim;
 
+    Rigidbody rigid;
 
     private void Start()
     {
         pinput = GetComponent<Playerinput>();
+        rigid = GetComponent<Rigidbody>();
         skalManager = GameObject.Find("GameManager").GetComponent<SKALGameManager>();
         UiController.gameObject.SetActive(true);
         UiController.Init(this);
         PlayerIndex = pinput.GetPlayerInDex();
         InputPath = "PAD" + PlayerIndex.ToString();
-
         nScore = 0;
         SetIsDrink(false);
         nBottleCount = 0;
@@ -44,9 +45,20 @@ public class SKALPlayerInfomation : MonoBehaviour
         IsNearInBarTable = false;
         IsNearInTable = false;
     }
+    private void AnimationFunction()
+    {
+        //Anim.SetFloat("MoveSpeed", pinput.fNowSpeed);
+        if(Mathf.Abs(rigid.velocity.x) <= 0.1f && Mathf.Abs(rigid.velocity.z) <= 0.1f)
+        {
+            Anim.SetFloat("MoveSpeed", 0.0f);
+        }
+        else
+        Anim.SetFloat("MoveSpeed", 1.0f);
+    }
     private void Update()
     {
         ButtonInput();
+        AnimationFunction();
         //Anim.SetFloat("MoveSpeed", pinput.fNowSpeed);
         if (skalManager.bIsRaglanok == true)
         {
@@ -147,7 +159,7 @@ public class SKALPlayerInfomation : MonoBehaviour
     }
     public void Anim_DrinkEvent()
     {
-
+        Anim.SetTrigger("IsDrinking");
     }
     public void Anim_StunedEvent()
     {
