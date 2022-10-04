@@ -16,6 +16,8 @@ public class SKALPlayerInfomation : MonoBehaviour
     public bool IsNearInTable { get; set; }
     SKALDrinkTable myDrinkTable;
 
+    [SerializeField]
+    float fStunTime = 2.0f;
     SKALGameManager skalManager;
 
     [SerializeField]
@@ -152,46 +154,61 @@ public class SKALPlayerInfomation : MonoBehaviour
     {
         if (IsNearInTable == true && myDrinkTable != null && nBottleCount > 0&& IsDrink == true)
         {
-            pinput.IsCanMove = true;
-            pinput.fCanMoveTime = 1.0f;
+            pinput.IsCanMove = false;
             InitDrinks();
+            Anim.SetTrigger("IsStun");
+            Anim.SetInteger("SutnStage", 0);
         }
     }
     public void Anim_DrinkEvent()
     {
-        Anim.SetTrigger("IsDrinking");
+        nBottleCount--;
+        print("Anim_Drink");
+        if (nBottleCount <= 0)
+        {
+            nBottleCount = 0;
+            SetIsDrink(false);
+            AddintoxicationStack();
+        }
     }
     public void Anim_StunedEvent()
     {
+        Anim.SetInteger("StunState", 1);
+        Invoke("StunDisable", fStunTime);
+    }
+    private void StunDisable()
+    {
+        Anim.SetInteger("StunState", 0);
 
+        pinput.IsCanMove = true;
     }
     public void Anim_PickUpEvent()
     {
-
+            nBottleCount++;
+            print("Anim_PickUpEvent");
+            if (nBottleCount >= 3 + nintoxicationStack)
+            {
+                SetIsDrink(true);
+        }
+    }
+    public void Anim_CanMove()
+    {
+        pinput.IsCanMove = true;
     }
     private void ReFillDrink()
     {
         if (IsDrink == false)
         {
-            print("A");
-            nBottleCount++;
-            if (nBottleCount >= 3 + nintoxicationStack)
-            {
-                SetIsDrink(true);
-            }
+            Anim.SetTrigger("IsPickUp");
+            pinput.IsCanMove = false;
         }
     }
     private void DrinkDrunk()
     {
         if (IsDrink == true)
         {
-            nBottleCount--;
-            if (nBottleCount <= 0)
-            {
-                nBottleCount = 0;
-                SetIsDrink(false);
-                AddintoxicationStack();
-            }
+            Anim.SetTrigger("IsDrinking");
+            pinput.IsCanMove = false;
         }
     }
     private void SetIsDrink(bool _value)

@@ -49,15 +49,15 @@ public class Playerinput : MonoBehaviour
     }
     private void DebuffFunction()
     {
-        if (IsCanMove == false)
-        {
-            fCanMoveTime -= Time.deltaTime;
-            if (fCanMoveTime <= 0)
-            {
-                fCanMoveTime = 0;
-                IsCanMove = true;
-            }
-        }
+        //if (IsCanMove == false)
+        //{
+        //    fCanMoveTime -= Time.deltaTime;
+        //    if (fCanMoveTime <= 0)
+        //    {
+        //        fCanMoveTime = 0;
+        //        IsCanMove = true;
+        //    }
+        //}
     }
     private void KeyboardInput()
     {
@@ -102,7 +102,12 @@ public class Playerinput : MonoBehaviour
     private void MovementKeyInput()
     {
         CheckGrounded();
-        if (IsCanMove) return;
+        if (IsCanMove == false)
+        {
+            Dir = Vector3.zero;
+            fNowSpeed = 0.0f;
+            return;
+        }
         string InputPath = "PAD" + PlayerIndex.ToString();
         Dir.x = Input.GetAxis(InputPath+"_DPAD_Horizontal");
         Dir.z = Input.GetAxis(InputPath + "_DPAD_Vertical");

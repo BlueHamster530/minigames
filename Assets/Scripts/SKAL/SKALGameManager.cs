@@ -18,6 +18,12 @@ public class SKALGameManager : MonoBehaviour
     bool IsGamePause;
     public bool bIsRaglanok { get; set; } = false;
 
+    [SerializeField]
+    Camera[] PlayerCams;
+
+    [SerializeField]
+    int nPlayersIndex=2;
+
     private void Start()
     {
         fCurrentTime = fGamePlayTime;
@@ -25,6 +31,13 @@ public class SKALGameManager : MonoBehaviour
         bIsRaglanok = false;
         RaglanokImage.SetActive(false);
         StartCoroutine("GameStartCount");
+
+     
+        for (int i = 0; i < nPlayersIndex; i++)
+        {
+            PlayerCams[i].rect = new Rect(new Vector2(i * (1.0f / (nPlayersIndex)), 0), new Vector2(1.0f / (nPlayersIndex), 1));
+        }
+
     }
     IEnumerator GameStartCount()
     {
