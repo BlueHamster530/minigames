@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class SKALGameManager : MonoBehaviour
 {
@@ -15,14 +16,17 @@ public class SKALGameManager : MonoBehaviour
     [SerializeField]
     GameObject RaglanokImage;
 
+    [SerializeField]
+    Slider TimeBar;
+
     bool IsGamePause;
     public bool bIsRaglanok { get; set; } = false;
 
     [SerializeField]
-    Camera[] PlayerCams;
+    int nPlayersIndex=2;
 
     [SerializeField]
-    int nPlayersIndex=2;
+    Playerinput[] Players;
 
     private void Start()
     {
@@ -32,27 +36,31 @@ public class SKALGameManager : MonoBehaviour
         RaglanokImage.SetActive(false);
         StartCoroutine("GameStartCount");
 
-     
-        for (int i = 0; i < nPlayersIndex; i++)
-        {
-            PlayerCams[i].rect = new Rect(new Vector2(i * (1.0f / (nPlayersIndex)), 0), new Vector2(1.0f / (nPlayersIndex), 1));
-        }
-
     }
     IEnumerator GameStartCount()
     {
+
+        for (int i = 0; i < nPlayersIndex; i++)
+        {
+            Players[i].IsCanMove = false;
+        }
         for (int i = 3; i > 0; i--)
         {
             TimeText.text = i.ToString();
             yield return new WaitForSeconds(1);
         }
         IsGamePause = false;
+
+        for (int i = 0; i < nPlayersIndex; i++)
+        {
+            Players[i].IsCanMove = true;
+        }
         yield return null;
     }
     private void UpDateGUI()
     {
-        TimeText.text = Mathf.FloorToInt(fCurrentTime / 60.0f).ToString() + ":" + Mathf.FloorToInt(fCurrentTime % 60.0f).ToString();
-
+        TimeText.text = Mathf.FloorToInt(fCurrentTime / 60.0f).ToString() + ":" + Mathf.FloorToInt(fCurrentTime % 60.0f).ToString("00");
+        TimeBar.value = (fCurrentTime / 180.0f);
     }
     private void Update()
     {
@@ -68,8 +76,12 @@ public class SKALGameManager : MonoBehaviour
             {
                 bIsRaglanok = true;
                 RaglanokImage.SetActive(true);
+                Invoke("DisableRagranokImage",1.0f);
             }
         }
     }
-
+    private void DisableRagranokImage()
+    {
+        RaglanokImage.SetActive(false);
+    }
 }

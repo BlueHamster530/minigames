@@ -22,9 +22,9 @@ public class SKALPlayerInfomation : MonoBehaviour
 
     [SerializeField]
     SKALUiController UiController;
-
     [SerializeField]
-    GameObject DrinkImage;
+    GameObject PlayerCanvas;
+
 
     [SerializeField]
     Animator Anim;
@@ -37,6 +37,7 @@ public class SKALPlayerInfomation : MonoBehaviour
         rigid = GetComponent<Rigidbody>();
         skalManager = GameObject.Find("GameManager").GetComponent<SKALGameManager>();
         UiController.gameObject.SetActive(true);
+        PlayerCanvas.gameObject.SetActive(true);
         UiController.Init(this);
         PlayerIndex = pinput.GetPlayerInDex();
         InputPath = "PAD" + PlayerIndex.ToString();
@@ -186,7 +187,7 @@ public class SKALPlayerInfomation : MonoBehaviour
     {
             nBottleCount++;
             print("Anim_PickUpEvent");
-            if (nBottleCount >= 3 + nintoxicationStack)
+            if (nBottleCount > 3 + nintoxicationStack)
             {
                 SetIsDrink(true);
         }
@@ -214,7 +215,7 @@ public class SKALPlayerInfomation : MonoBehaviour
     private void SetIsDrink(bool _value)
     {
         IsDrink = _value;
-        DrinkImage.SetActive(_value);
+       // DrinkImage.SetActive(_value);
     }
     private void AddintoxicationStack()
     {

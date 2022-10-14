@@ -21,6 +21,10 @@ public class Playerinput : MonoBehaviour
 
     float fAccSpeed = 1.0f;
 
+    [SerializeField]
+    float MaxSpeed;
+
+
     public float fNowSpeed;
     public bool IsCanMove { get; set; } = false;
     public float fCanMoveTime { get; set; } = 0.0f;
@@ -37,7 +41,7 @@ public class Playerinput : MonoBehaviour
         originPos = transform.position;
         rigid = GetComponent<Rigidbody>();
         IsGrounded = false;
-        IsCanMove = true;
+        IsCanMove = false;
         fCanMoveTime = 3.0f;
         fAccSpeed = 1.0f;
         fNowSpeed = 0;
@@ -89,14 +93,14 @@ public class Playerinput : MonoBehaviour
         }
         if (Dir.x != 0)
         {
-            rigid.AddForce(Vector3.right * Dir.x * Speed * fAccSpeed * Time.deltaTime* fNowSpeed);
+             rigid.AddForce(Vector3.right * Dir.x * Speed* fAccSpeed * Time.deltaTime);
         }
         if (Dir.z != 0)
         {
-            rigid.AddForce(Vector3.forward * Dir.z * Speed * fAccSpeed * Time.deltaTime* fNowSpeed);
+              rigid.AddForce(Vector3.forward * Dir.z * Speed * fAccSpeed * Time.deltaTime);
         }
-
-      //  rigid.velocity = new Vector3(Dir.x, 0, Dir.z) * Speed * SpeefAcc * Time.deltaTime;
+        rigid.velocity = Vector3.ClampMagnitude(rigid.velocity, MaxSpeed);
+        //  rigid.velocity = new Vector3(Dir.x, 0, Dir.z) * Speed * SpeefAcc * Time.deltaTime;
 
     }
     private void MovementKeyInput()
@@ -111,6 +115,7 @@ public class Playerinput : MonoBehaviour
         string InputPath = "PAD" + PlayerIndex.ToString();
         Dir.x = Input.GetAxis(InputPath+"_DPAD_Horizontal");
         Dir.z = Input.GetAxis(InputPath + "_DPAD_Vertical");
+        print(Dir.x);
         if (Dir.x == 0)
             Dir.x = Input.GetAxisRaw(InputPath + "_LSTICK_Horizontal");
         if (Dir.z == 0)
@@ -127,13 +132,16 @@ public class Playerinput : MonoBehaviour
         {
             fNowSpeed = 0.0f;
         }
+
         if (Dir.x != 0)
         {
-            rigid.AddForce(Vector3.right * Dir.x * Speed* fAccSpeed * Time.deltaTime);
+            //rigid.AddForce(Vector3.right * Dir.x * Speed* fAccSpeed * Time.deltaTime);
+            rigid.velocity = Vector3.right * Dir.x * Speed * fAccSpeed * Time.deltaTime;
         }
         if (Dir.z != 0)
         {
-            rigid.AddForce(Vector3.forward * Dir.z * Speed * fAccSpeed * Time.deltaTime);
+            // rigid.AddForce(Vector3.forward * Dir.z * Speed * fAccSpeed * Time.deltaTime);
+            rigid.velocity = Vector3.forward * Dir.z * Speed * fAccSpeed * Time.deltaTime;
         }
       //  rigid.velocity = new Vector3(Dir.x, 0, Dir.z) * Speed * SpeefAcc * Time.deltaTime;
 
