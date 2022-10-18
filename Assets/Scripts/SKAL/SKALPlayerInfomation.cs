@@ -110,7 +110,8 @@ public class SKALPlayerInfomation : MonoBehaviour
     {
         if (IsNearInTable)
         {
-            GenseiTable();
+            pinput.IsCanMove = false;
+            Anim.SetTrigger("IsAttack");
         }
     }
     private void GenseiTable()
@@ -171,6 +172,15 @@ public class SKALPlayerInfomation : MonoBehaviour
             SetIsDrink(false);
             AddintoxicationStack();
         }
+    }
+    public void Anim_AttackEvent()
+    {
+        GenseiTable();
+    }
+    public void Anim_AttackEndEvent()
+    {
+        print("asd");
+          pinput.IsCanMove = true;
     }
     public void Anim_StunedEvent()
     {

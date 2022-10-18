@@ -3482,7 +3482,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!95 &262792015
 Animator:
   serializedVersion: 4
@@ -3552,6 +3552,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   PlayerIndex: 1
+  MaxSpeed: 0
   fNowSpeed: 0
 --- !u!4 &262792020
 Transform:
@@ -7743,6 +7744,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   PlayerIndex: 0
+  MaxSpeed: 0
   fNowSpeed: 0
 --- !u!4 &629641900
 Transform:
@@ -18005,7 +18007,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!95 &1451182516
 Animator:
   serializedVersion: 4
@@ -18075,6 +18077,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   PlayerIndex: 3
+  MaxSpeed: 0
   fNowSpeed: 0
 --- !u!4 &1451182521
 Transform:
@@ -23474,7 +23477,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!95 &1893614626
 Animator:
   serializedVersion: 4
@@ -23544,6 +23547,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   PlayerIndex: 2
+  MaxSpeed: 0
   fNowSpeed: 0
 --- !u!4 &1893614631
 Transform:

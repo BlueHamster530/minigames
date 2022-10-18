@@ -115,7 +115,6 @@ public class Playerinput : MonoBehaviour
         string InputPath = "PAD" + PlayerIndex.ToString();
         Dir.x = Input.GetAxis(InputPath+"_DPAD_Horizontal");
         Dir.z = Input.GetAxis(InputPath + "_DPAD_Vertical");
-        print(Dir.x);
         if (Dir.x == 0)
             Dir.x = Input.GetAxisRaw(InputPath + "_LSTICK_Horizontal");
         if (Dir.z == 0)
@@ -135,15 +134,14 @@ public class Playerinput : MonoBehaviour
 
         if (Dir.x != 0)
         {
-            //rigid.AddForce(Vector3.right * Dir.x * Speed* fAccSpeed * Time.deltaTime);
-            rigid.velocity = Vector3.right * Dir.x * Speed * fAccSpeed * Time.deltaTime;
+            rigid.AddForce(Vector3.right * Dir.x * Speed* fAccSpeed * Time.deltaTime);
         }
         if (Dir.z != 0)
         {
-            // rigid.AddForce(Vector3.forward * Dir.z * Speed * fAccSpeed * Time.deltaTime);
-            rigid.velocity = Vector3.forward * Dir.z * Speed * fAccSpeed * Time.deltaTime;
+            rigid.AddForce(Vector3.forward * Dir.z * Speed * fAccSpeed * Time.deltaTime);
         }
-      //  rigid.velocity = new Vector3(Dir.x, 0, Dir.z) * Speed * SpeefAcc * Time.deltaTime;
+        rigid.velocity = Vector3.ClampMagnitude(rigid.velocity, MaxSpeed);
+        //  rigid.velocity = new Vector3(Dir.x, 0, Dir.z) * Speed * SpeefAcc * Time.deltaTime;
 
     }
     private void FixedUpdate()
