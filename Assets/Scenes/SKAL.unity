@@ -232,7 +232,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6714359
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5945,7 +5945,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &247293300
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6980,7 +6980,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!114 &330585547
 MonoBehaviour:
@@ -8271,7 +8271,7 @@ Transform:
   m_Children:
   - {fileID: 8198085023861258348}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &497055845
 MonoBehaviour:
@@ -8285,6 +8285,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 529dc6fbce901f442b9b84e05127dfa8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  nBottleCount: 0
+  nintoxicationStack: 0
   fStunTime: 2
   UiController: {fileID: 6714360}
   PlayerCanvas: {fileID: 1057280028}
@@ -11548,7 +11550,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &836317711
 GameObject:
@@ -11965,7 +11967,7 @@ Transform:
   m_Children:
   - {fileID: 1992460909}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &870232637
 Animator:
@@ -11999,6 +12001,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 529dc6fbce901f442b9b84e05127dfa8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  nBottleCount: 0
+  nintoxicationStack: 0
   fStunTime: 2
   UiController: {fileID: 1124944382}
   PlayerCanvas: {fileID: 2074132123}
@@ -13531,7 +13535,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1035352921
 MonoBehaviour:
@@ -14049,7 +14053,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1066184047
 RectTransform:
   m_ObjectHideFlags: 0
@@ -14483,7 +14487,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1124944381
 RectTransform:
   m_ObjectHideFlags: 0
@@ -16775,7 +16779,7 @@ Transform:
   m_Children:
   - {fileID: 1812815016}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1400732930
 GameObject:
@@ -18003,7 +18007,7 @@ Transform:
   m_Children:
   - {fileID: 1065709176}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &1499436038
 Animator:
@@ -18037,6 +18041,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 529dc6fbce901f442b9b84e05127dfa8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  nBottleCount: 0
+  nintoxicationStack: 0
   fStunTime: 2
   UiController: {fileID: 247293301}
   PlayerCanvas: {fileID: 683492280}
@@ -20932,7 +20938,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1760725102
 RectTransform:
   m_ObjectHideFlags: 0
@@ -21552,7 +21558,7 @@ Transform:
   m_Children:
   - {fileID: 222592938}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1855640854
 MonoBehaviour:
@@ -21566,6 +21572,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 529dc6fbce901f442b9b84e05127dfa8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  nBottleCount: 0
+  nintoxicationStack: 0
   fStunTime: 2
   UiController: {fileID: 1760725103}
   PlayerCanvas: {fileID: 701981956}
@@ -24431,7 +24439,7 @@ Transform:
   - {fileID: 1743677816}
   - {fileID: 1770156379}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &8198085023856136398
 SkinnedMeshRenderer:

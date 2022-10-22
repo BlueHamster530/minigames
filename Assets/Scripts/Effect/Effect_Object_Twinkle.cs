@@ -12,7 +12,7 @@ public class Effect_Object_Twinkle : MonoBehaviour
     // Start is called before the first frame update
     public void Init(int _Count, bool _PositionLock, Vector3 _returnpos)
     {
-        meshRender = GetComponent<MeshRenderer>();
+        meshRender = GetComponentInChildren<MeshRenderer>();
         nCount = _Count;
         OriginPos = this.transform.position;
         IsPositionLock = _PositionLock;

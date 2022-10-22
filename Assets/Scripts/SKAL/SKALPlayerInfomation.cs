@@ -8,7 +8,9 @@ public class SKALPlayerInfomation : MonoBehaviour
     string InputPath;
 
     bool IsDrink;
+    [SerializeField]
     int nBottleCount;
+    [SerializeField]
     int nintoxicationStack;
     public int PlayerIndex { get; set; }
     public int nScore { get; set; }
@@ -25,6 +27,7 @@ public class SKALPlayerInfomation : MonoBehaviour
     [SerializeField]
     GameObject PlayerCanvas;
 
+    bool bIsIdle;
 
     [SerializeField]
     Animator Anim;
@@ -47,6 +50,7 @@ public class SKALPlayerInfomation : MonoBehaviour
         nintoxicationStack = 0;
         IsNearInBarTable = false;
         IsNearInTable = false;
+        bIsIdle = true;
     }
     private void AnimationFunction()
     {
@@ -99,18 +103,19 @@ public class SKALPlayerInfomation : MonoBehaviour
     {
         if (IsNearInBarTable)
         {
-            ReFillDrink();
+            if(bIsIdle == true)
+                ReFillDrink();
         }
         if (IsNearInTable)
         {
-            DrinkDrunk();
+            if (bIsIdle == true)
+                DrinkDrunk();
         }
     }
     private void PressBButton()
     {
         if (IsNearInTable)
         {
-            pinput.IsCanMove = false;
             Anim.SetTrigger("IsAttack");
         }
     }
@@ -159,7 +164,7 @@ public class SKALPlayerInfomation : MonoBehaviour
             pinput.IsCanMove = false;
             InitDrinks();
             Anim.SetTrigger("IsStun");
-            Anim.SetInteger("SutnStage", 0);
+            Anim.SetInteger("SutnStage", 1);
         }
     }
     public void Anim_DrinkEvent()
@@ -173,14 +178,13 @@ public class SKALPlayerInfomation : MonoBehaviour
             AddintoxicationStack();
         }
     }
+    public void Anim_End()
+    {
+        bIsIdle = true;
+    }
     public void Anim_AttackEvent()
     {
         GenseiTable();
-    }
-    public void Anim_AttackEndEvent()
-    {
-        print("asd");
-          pinput.IsCanMove = true;
     }
     public void Anim_StunedEvent()
     {
@@ -190,28 +194,31 @@ public class SKALPlayerInfomation : MonoBehaviour
     private void StunDisable()
     {
         Anim.SetInteger("StunState", 0);
-
-        pinput.IsCanMove = true;
     }
     public void Anim_PickUpEvent()
     {
             nBottleCount++;
             print("Anim_PickUpEvent");
-            if (nBottleCount > 3 + nintoxicationStack)
+            if (nBottleCount >= 3 + nintoxicationStack)
             {
                 SetIsDrink(true);
         }
     }
-    public void Anim_CanMove()
+    public void Anim_EndEvent()
     {
         pinput.IsCanMove = true;
+        bIsIdle = true;
+    }
+    public void Anim_StartEvent()
+    {
+        pinput.IsCanMove = false;
+        bIsIdle = false;
     }
     private void ReFillDrink()
     {
         if (IsDrink == false)
         {
             Anim.SetTrigger("IsPickUp");
-            pinput.IsCanMove = false;
         }
     }
     private void DrinkDrunk()
@@ -219,7 +226,6 @@ public class SKALPlayerInfomation : MonoBehaviour
         if (IsDrink == true)
         {
             Anim.SetTrigger("IsDrinking");
-            pinput.IsCanMove = false;
         }
     }
     private void SetIsDrink(bool _value)

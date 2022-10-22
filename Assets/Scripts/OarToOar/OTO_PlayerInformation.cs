@@ -13,6 +13,9 @@ public class OTO_PlayerInformation : MonoBehaviour
     OTO_UiController UiController;
     Vector3 vOriginPos;
 
+    Animator Anim;
+    [SerializeField]
+    float fStunTime;
     GameObject InBoatObject;
 
     bool IsRaglanokBuffOn;
@@ -29,6 +32,7 @@ public class OTO_PlayerInformation : MonoBehaviour
     {
         pinput = GetComponent<Playerinput>();
         OTOGamemanager = GameObject.Find("GameManager").GetComponent<OTO_GameManger>();
+        Anim = GetComponent<Animator>();
         rigid = GetComponent<Rigidbody>();
         UiController.gameObject.SetActive(true);
         UiController.Init(this);
@@ -46,6 +50,7 @@ public class OTO_PlayerInformation : MonoBehaviour
     }
     private void Update()
     {
+        AnimationFunction();
         ButtonInput();
         JumpMovement();
         if (OTOGamemanager.bIsRaglanok == true&& IsRaglanokBuffOn == false)
@@ -65,6 +70,11 @@ public class OTO_PlayerInformation : MonoBehaviour
         {
             JumpEvent();
         }
+    }
+
+    public void Anim_CanMove()
+    {
+        pinput.IsCanMove = true;
     }
     private void ButtonInput()
     {
@@ -91,6 +101,16 @@ public class OTO_PlayerInformation : MonoBehaviour
             }
         }
     }
+    private void AnimationFunction()
+    {
+        //Anim.SetFloat("MoveSpeed", pinput.fNowSpeed);
+        if (Mathf.Abs(rigid.velocity.x) <= 0.1f && Mathf.Abs(rigid.velocity.z) <= 0.1f)
+        {
+            Anim.SetFloat("MoveSpeed", 0.0f);
+        }
+        else
+            Anim.SetFloat("MoveSpeed", 1.0f);
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("FallGround"))
@@ -98,6 +118,23 @@ public class OTO_PlayerInformation : MonoBehaviour
             FallDownToWater();
         }
     }
+    public void Anim_AttackEndEvent()
+    {
+        print("asd");
+        pinput.IsCanMove = true;
+    }
+    public void Anim_StunedEvent()
+    {
+        Anim.SetInteger("StunState", 2);
+        Invoke("StunDisable", fStunTime);
+    }
+    private void StunDisable()
+    {
+        Anim.SetInteger("StunState", 0);
+
+        pinput.IsCanMove = true;
+    }
+
     private void JumpMovement()
     {
        // if (pinput.GetIsGrounded() == true)
@@ -128,6 +165,7 @@ public class OTO_PlayerInformation : MonoBehaviour
                             }
                         }
                         bIsJumped = false;
+                        Anim.SetBool("IsJump", false);
                     }
                 }
             }
@@ -150,6 +188,7 @@ public class OTO_PlayerInformation : MonoBehaviour
 
             Vector3 jumpvelocity = Vector3.up * Mathf.Sqrt(fjumpHight * -Physics.gravity.y);
             rigid.AddForce(jumpvelocity, ForceMode.VelocityChange);
+            Anim.SetBool("IsJump", true);
     }
     public void EventHit(Vector3 ForceDirection, float Power)
     {
@@ -159,21 +198,21 @@ public class OTO_PlayerInformation : MonoBehaviour
     }
     private void PressBButton()
     {
-        RaycastHit Hit;
+        RaycastHit[] Hit = Physics.RaycastAll(transform.position,transform.forward,2.0f);
         print("Attacked");
         Debug.DrawRay(transform.position, transform.forward * 2.0f, Color.red,3.0f);
-        if (Physics.Raycast(transform.position, transform.forward, out Hit, 2.0f))
+        for (int i = 0; i < Hit.Length; i++)
         {
-            if (Hit.collider.CompareTag("Player"))
-            {
-                OTO_PlayerInformation HitPlayer = Hit.collider.GetComponent<OTO_PlayerInformation>();
-                if (HitPlayer.bIsHit == false)
+                if (Hit[i].collider.CompareTag("Player"))
                 {
-                    print("AttackHit");
-                    HitPlayer.JumpEvent();
-                    HitPlayer.EventHit(transform.forward, fAttackPower);
+                    OTO_PlayerInformation HitPlayer = Hit[i].collider.GetComponent<OTO_PlayerInformation>();
+                    if (HitPlayer.bIsHit == false)
+                    {
+                        print("AttackHit");
+                        HitPlayer.JumpEvent();
+                        HitPlayer.EventHit(transform.forward, fAttackPower);
+                    }
                 }
-            }
         }
     }
     private void FallDownToWater()

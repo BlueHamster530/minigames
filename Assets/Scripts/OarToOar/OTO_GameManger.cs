@@ -18,6 +18,9 @@ public class OTO_GameManger : MonoBehaviour
     bool IsGamePause;
     public bool bIsRaglanok { get; set; } = false;
     // Start is called before the first frame update
+
+    [SerializeField]
+    GameObject[] Players;
     void Start()
     {
         fCurrentTime = fGamePlayTime;
@@ -28,10 +31,14 @@ public class OTO_GameManger : MonoBehaviour
     }
     IEnumerator GameStartCount()
     {
-        for (int i = 3; i > 0; i--)
+        for (int i = 1; i > 0; i--)
         {
             TimeText.text = i.ToString();
             yield return new WaitForSeconds(1);
+        }
+        for (int i = 0; i < Players.Length; i++)
+        {
+            Players[i].GetComponent<Playerinput>().IsCanMove = true;
         }
         IsGamePause = false;
         yield return null;
@@ -56,7 +63,12 @@ public class OTO_GameManger : MonoBehaviour
             {
                 bIsRaglanok = true;
                 RaglanokImage.SetActive(true);
+                Invoke("DisableRagranokImage", 1.0f);
             }
         }
+    }
+    private void DisableRagranokImage()
+    {
+        RaglanokImage.SetActive(false);
     }
 }
