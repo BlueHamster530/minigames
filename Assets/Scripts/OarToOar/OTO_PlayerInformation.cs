@@ -27,6 +27,8 @@ public class OTO_PlayerInformation : MonoBehaviour
 
     Rigidbody rigid;
     bool bIsHit;
+    [SerializeField]
+    bool bIsIdle;
     // Start is called before the first frame update
     void Start()
     {
@@ -43,6 +45,7 @@ public class OTO_PlayerInformation : MonoBehaviour
         vOriginPos = transform.position;
         bIsJumped = false;
         bIsHit = false;
+        bIsIdle = true;
     }
     private void Hitdisable()
     {
@@ -84,7 +87,7 @@ public class OTO_PlayerInformation : MonoBehaviour
             {
                 PressAButton();
             }
-            if (Input.GetKeyDown(KeyCode.S) && bIsJumped == true)
+            if (Input.GetKeyDown(KeyCode.S))
             {
                 PressBButton();
             }
@@ -95,7 +98,7 @@ public class OTO_PlayerInformation : MonoBehaviour
             {
                 PressAButton();
             }
-            if (Input.GetButtonDown(InputPath + "_Button_B")&&bIsJumped == true)
+            if (Input.GetButtonDown(InputPath + "_Button_B"))
             {
                 PressBButton();
             }
@@ -132,7 +135,9 @@ public class OTO_PlayerInformation : MonoBehaviour
     {
         Anim.SetInteger("StunState", 0);
 
+        bIsHit = false;
         pinput.IsCanMove = true;
+        bIsIdle = true;
     }
 
     private void JumpMovement()
@@ -180,7 +185,7 @@ public class OTO_PlayerInformation : MonoBehaviour
 
         UiController.SetScoreText(nScore);
     }
-    public void JumpEvent()
+    public void JumpEvent(bool IsByHit = false)
     {
             bIsJumped = true;
         if (rigid.velocity.y <= 0)
@@ -188,31 +193,50 @@ public class OTO_PlayerInformation : MonoBehaviour
 
             Vector3 jumpvelocity = Vector3.up * Mathf.Sqrt(fjumpHight * -Physics.gravity.y);
             rigid.AddForce(jumpvelocity, ForceMode.VelocityChange);
+        if (IsByHit == false)
             Anim.SetBool("IsJump", true);
     }
     public void EventHit(Vector3 ForceDirection, float Power)
     {
         rigid.AddForce(ForceDirection * Power, ForceMode.VelocityChange);
-        Invoke("Hitdisable", 1.0f);
+        Anim.SetInteger("SutnStage", 1);
+        Anim.SetTrigger("IsStun");
         bIsHit = true;
     }
     private void PressBButton()
     {
-        RaycastHit[] Hit = Physics.RaycastAll(transform.position,transform.forward,2.0f);
-        print("Attacked");
-        Debug.DrawRay(transform.position, transform.forward * 2.0f, Color.red,3.0f);
+        if (pinput.IsCanMove == true&& bIsIdle == true)
+        {
+            Anim.SetTrigger("IsAttack");
+        }
+    }
+
+    public void Anim_EndEvent()
+    {
+        pinput.IsCanMove = true;
+        bIsIdle = true;
+    }
+    public void Anim_StartEvent()
+    {
+        pinput.IsCanMove = false;
+        bIsIdle = false;
+    }
+    public void Anim_AttackEvent()
+    {
+        RaycastHit[] Hit = Physics.RaycastAll(transform.position+new Vector3(0,1.5f,0), transform.forward, 2.0f);
+        Debug.DrawRay(transform.position + new Vector3(0, 1.5f, 0), transform.forward * 2.0f, Color.red, 3.0f);
         for (int i = 0; i < Hit.Length; i++)
         {
-                if (Hit[i].collider.CompareTag("Player"))
+            if (Hit[i].collider.CompareTag("Player"))
+            {
+                OTO_PlayerInformation HitPlayer = Hit[i].collider.GetComponent<OTO_PlayerInformation>();
+                if (HitPlayer.bIsHit == false)
                 {
-                    OTO_PlayerInformation HitPlayer = Hit[i].collider.GetComponent<OTO_PlayerInformation>();
-                    if (HitPlayer.bIsHit == false)
-                    {
-                        print("AttackHit");
-                        HitPlayer.JumpEvent();
-                        HitPlayer.EventHit(transform.forward, fAttackPower);
-                    }
+                    print("AttackHit");
+                    HitPlayer.JumpEvent();
+                    HitPlayer.EventHit(transform.forward, fAttackPower);
                 }
+            }
         }
     }
     private void FallDownToWater()

@@ -188,7 +188,7 @@ public class SKALPlayerInfomation : MonoBehaviour
     }
     public void Anim_StunedEvent()
     {
-        Anim.SetInteger("StunState", 1);
+        Anim.SetInteger("StunState", 2);
         Invoke("StunDisable", fStunTime);
     }
     private void StunDisable()
