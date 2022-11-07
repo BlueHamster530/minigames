@@ -46,6 +46,14 @@ public class Playerinput : MonoBehaviour
         fAccSpeed = 1.0f;
         fNowSpeed = 0;
         print("PAD" + PlayerIndex.ToString());
+
+        for (int i = 0; i < 6; i++)
+        {
+            transform.GetChild(0).GetChild(i).gameObject.SetActive(false);
+        }
+        int index = CharaterManager.instance.PlayerCharacterIndex[PlayerIndex-1];
+        print(index);
+        transform.GetChild(0).GetChild(index).gameObject.SetActive(true);
     }
     public void SetAccSpeed(float _value)
     {

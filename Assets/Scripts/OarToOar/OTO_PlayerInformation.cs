@@ -29,6 +29,9 @@ public class OTO_PlayerInformation : MonoBehaviour
     bool bIsHit;
     [SerializeField]
     bool bIsIdle;
+
+    int nNowboatIndex;
+    bool isPaddle;
     // Start is called before the first frame update
     void Start()
     {
@@ -46,6 +49,8 @@ public class OTO_PlayerInformation : MonoBehaviour
         bIsJumped = false;
         bIsHit = false;
         bIsIdle = true;
+        isPaddle = false;
+        nNowboatIndex = -1;
     }
     private void Hitdisable()
     {
@@ -72,6 +77,7 @@ public class OTO_PlayerInformation : MonoBehaviour
         if (bIsJumped == false)
         {
             JumpEvent();
+            OTO_SoundManager.instance.CallJump();
         }
     }
 
@@ -156,18 +162,28 @@ public class OTO_PlayerInformation : MonoBehaviour
                         print(Hit.transform.name);
                         if (!Hit.collider.CompareTag("FallGround"))
                         {
-                            if (InBoatObject != Hit.transform.parent.gameObject)
-                            {
                                 if (Hit.collider.CompareTag("OTO_Paddle"))
                                 {
-                                    AddScore(4);
+                                    if (Hit.transform.GetComponentInParent<OTO_Boar>().nBoatIndex != nNowboatIndex)
+                                    {
+                                        if (isPaddle == true)
+                                            AddScore(4);
+                                        else
+                                            AddScore(2);
+
+                                        isPaddle = true;
+                                    nNowboatIndex = Hit.transform.GetComponentInParent<OTO_Boar>().nBoatIndex;
+                                    }
                                 }
                                 else if (Hit.collider.CompareTag("OTO_Boat"))
-                                {
-                                    AddScore(2);
-                                }
-                                InBoatObject = Hit.transform.parent.gameObject;
-                            }
+                                  {
+                                     if (Hit.transform.GetComponentInParent<OTO_Boar>().nBoatIndex != nNowboatIndex)
+                                     {
+                                         AddScore(1);
+                                         isPaddle = false;
+                                         nNowboatIndex = Hit.transform.GetComponentInParent<OTO_Boar>().nBoatIndex;
+                                     }
+                                 }
                         }
                         bIsJumped = false;
                         Anim.SetBool("IsJump", false);
@@ -235,6 +251,7 @@ public class OTO_PlayerInformation : MonoBehaviour
                     print("AttackHit");
                     HitPlayer.JumpEvent();
                     HitPlayer.EventHit(transform.forward, fAttackPower);
+                    OTO_SoundManager.instance.CallPunch();
                 }
             }
         }
@@ -245,6 +262,7 @@ public class OTO_PlayerInformation : MonoBehaviour
         Clone.Init(8,true,vOriginPos);
         AddScore(-1);
         StartCoroutine(FreezeMove(1.6f));
+        OTO_SoundManager.instance.CallDive();
     }
     private IEnumerator FreezeMove(float _Time)
     {

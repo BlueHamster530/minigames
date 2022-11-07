@@ -164,12 +164,15 @@ public class SKALPlayerInfomation : MonoBehaviour
             pinput.IsCanMove = false;
             InitDrinks();
             Anim.SetTrigger("IsStun");
+
+            SKALSoundManager.instance.CallCrash();
             Anim.SetInteger("SutnStage", 1);
         }
     }
     public void Anim_DrinkEvent()
     {
         nBottleCount--;
+        SKALSoundManager.instance.CallDrinking();
         print("Anim_Drink");
         if (nBottleCount <= 0)
         {
@@ -188,6 +191,7 @@ public class SKALPlayerInfomation : MonoBehaviour
     }
     public void Anim_StunedEvent()
     {
+
         Anim.SetInteger("StunState", 2);
         Invoke("StunDisable", fStunTime);
     }
@@ -199,7 +203,9 @@ public class SKALPlayerInfomation : MonoBehaviour
     {
             nBottleCount++;
             print("Anim_PickUpEvent");
-            if (nBottleCount >= 3 + nintoxicationStack)
+
+        SKALSoundManager.instance.CallRefill();
+        if (nBottleCount >= 3 + nintoxicationStack)
             {
                 SetIsDrink(true);
         }

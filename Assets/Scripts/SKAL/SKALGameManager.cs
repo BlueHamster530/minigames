@@ -28,14 +28,25 @@ public class SKALGameManager : MonoBehaviour
     [SerializeField]
     Playerinput[] Players;
 
+    [SerializeField]
+    Sprite[] countdowniamge;
+    [SerializeField]
+    Image countdown;
+
     private void Start()
     {
         fCurrentTime = fGamePlayTime;
+        nPlayersIndex = CharaterManager.instance.MaxPlayerIndex;
+        for (int i = 0; i < nPlayersIndex; i++)
+        {
+            Players[i].gameObject.SetActive(true);
+        }
         IsGamePause = true;
         bIsRaglanok = false;
         RaglanokImage.SetActive(false);
         StartCoroutine("GameStartCount");
-
+        countdown.gameObject.SetActive(true);
+        countdown.sprite = countdowniamge[2];
     }
     IEnumerator GameStartCount()
     {
@@ -44,11 +55,13 @@ public class SKALGameManager : MonoBehaviour
         {
             Players[i].IsCanMove = false;
         }
-        for (int i = 3; i > 0; i--)
+        for (int i = 2; i >= 0; i--)
         {
-            TimeText.text = i.ToString();
+            countdown.sprite = countdowniamge[i];
             yield return new WaitForSeconds(1);
         }
+
+        countdown.gameObject.SetActive(false);
         IsGamePause = false;
 
         for (int i = 0; i < nPlayersIndex; i++)
@@ -60,7 +73,7 @@ public class SKALGameManager : MonoBehaviour
     private void UpDateGUI()
     {
         TimeText.text = Mathf.FloorToInt(fCurrentTime / 60.0f).ToString() + ":" + Mathf.FloorToInt(fCurrentTime % 60.0f).ToString("00");
-        TimeBar.value = (fCurrentTime / 180.0f);
+        TimeBar.value = (fCurrentTime / fGamePlayTime);
     }
     private void Update()
     {
@@ -71,6 +84,7 @@ public class SKALGameManager : MonoBehaviour
             if (fCurrentTime <= 0)
             {//게임종료
                 fCurrentTime = 0;
+                GameTimeOver();
             }
             if (fCurrentTime <= 30 &&bIsRaglanok == false)
             {
@@ -84,4 +98,44 @@ public class SKALGameManager : MonoBehaviour
     {
         RaglanokImage.SetActive(false);
     }
+    private void GameTimeOver()
+    {
+        int []Ranking = { 1, 1, 1, 1 };
+        for (int i = 0; i < nPlayersIndex; i++)
+        {
+            Ranking[i] = 1;
+            for (int ii = 0; ii < nPlayersIndex; ii++)
+            {
+                if (Players[i].gameObject.GetComponent<SKALPlayerInfomation>().nScore < Players[ii].gameObject.GetComponent<SKALPlayerInfomation>().nScore)
+                {
+                    Ranking[i]++;
+                }
+            }
+        }
+
+        for (int i = 0; i < nPlayersIndex; i++)
+        {
+            CharaterManager.instance.PlayerScore[i] += Ranking[i];
+        }
+
+        CharaterManager.instance.RefreashRank();
+        if (CharaterManager.instance.IsReMatch == false)
+        {
+            CharaterManager.instance.NextSceneName = "OTO";
+            CharaterManager.instance.ChangeScene("GameExplaneScene");
+        }
+        else
+        {
+            if (CharaterManager.instance.IsJoonBok == true)
+            {
+                CharaterManager.instance.ReMatchEvent();
+            }
+            else
+            {
+                CharaterManager.instance.ChangeScene("EndingScene");
+            }
+
+        }
+    }
+
 }
