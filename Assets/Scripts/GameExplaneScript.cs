@@ -6,11 +6,9 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 public class GameExplaneScript : MonoBehaviour
 {
-    [SerializeField]
-    GameObject[] Players;
 
     [SerializeField]
-    TextMeshProUGUI[] playerReadText;
+    public TextMeshProUGUI[] playerReadText;
 
     [SerializeField]
     Image ExplaneImage;
@@ -25,9 +23,7 @@ public class GameExplaneScript : MonoBehaviour
     Sprite[] countdownnumber;
 
 
-    bool[] KeyDownCheck = new bool[4];
-    float[] keydowntick = new float[4];
-    bool[] IsReady = new bool[4];
+    public bool[] IsReady = new bool[4];
 
     float fGameStartTime;
 
@@ -41,13 +37,10 @@ public class GameExplaneScript : MonoBehaviour
         if (CharaterManager.instance.NextSceneName == "OTO")
             ExplaneImage.sprite = gameepxlanelist[1];
 
-        for (int i = 0; i < Players.Length; i++)
-            Players[i].SetActive(false);
-
         for (int i = 0; i < CharaterManager.instance.MaxPlayerIndex; i ++)
         {
-            Players[i].SetActive(true);
-            playerReadText[i].text = "Readt To Press A";
+                playerReadText[i].transform.parent.gameObject.SetActive(true);
+               playerReadText[i].text = "Readt To Press A";
         }
 
         fGameStartTime = 3.0f;
@@ -56,48 +49,17 @@ public class GameExplaneScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CharacterSelecter();
         GameStartCheck();
-    }
-    private void CharacterSelecter()
-    {
-        for (int i = 0; i < 1; i++)
-        {
-            string InputPath = "PAD" + (i + 1).ToString();
-            if (Players[i].activeSelf == false)//비활성화상태일때
-            {
-            }
-            else//활성화상태일때
-            {
-               
-                if (Input.GetButtonDown(InputPath + "_Button_A"))
-                {
-                    if (IsReady[i] == false)
-                    {
-                        IsReady[i] = true;
-                        playerReadText[i].text = "Ready";
-                    }
-                    else
-                    {
-                        IsReady[i] = false;
-                        playerReadText[i].text = "Press A to Ready";
-                    }
-                }
-            }
-        }
     }
     private void GameStartCheck()
     {
-        bool check = false;
-        for (int i = 0; i < 4; i++)
+        bool check = true;
+        for (int i = 0; i < CharaterManager.instance.MaxPlayerIndex; i++)
         {
-            if (Players[i].activeSelf == true)
-            {
-                if (IsReady[i] == true)
+                if (IsReady[i] == false)
                 {
-                    check = true;
+                    check = false;
                 }
-            }
         }
         if (CharaterManager.instance.MaxPlayerIndex > 0)
         {

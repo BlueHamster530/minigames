@@ -1,17 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class OTO_PlayerInformation : MonoBehaviour
 {
     Playerinput pinput;
-    string InputPath;
     public int PlayerIndex { get; set; }
     public int nScore { get; set; }
     OTO_GameManger OTOGamemanager;
-    [SerializeField]
+
     OTO_UiController UiController;
-    Vector3 vOriginPos;
+    public Vector3 vOriginPos;
 
     Animator Anim;
     [SerializeField]
@@ -33,16 +33,18 @@ public class OTO_PlayerInformation : MonoBehaviour
     int nNowboatIndex;
     bool isPaddle;
     // Start is called before the first frame update
-    void Start()
+    private void OnEnable()
     {
         pinput = GetComponent<Playerinput>();
         OTOGamemanager = GameObject.Find("GameManager").GetComponent<OTO_GameManger>();
+        PlayerIndex = pinput.GetPlayerInDex();
+        OTOGamemanager.AddPlayerinput(PlayerIndex - 1, pinput);
         Anim = GetComponent<Animator>();
-        rigid = GetComponent<Rigidbody>();
+        rigid = GetComponent<Rigidbody>(); 
+        UiController = GameObject.Find("PlayerInfos").transform.GetChild(PlayerIndex - 1).GetComponent<OTO_UiController>();
+
         UiController.gameObject.SetActive(true);
         UiController.Init(this);
-        PlayerIndex = pinput.GetPlayerInDex();
-        InputPath = "PAD" + PlayerIndex.ToString();
         nScore = 0;
         IsRaglanokBuffOn = false;
         vOriginPos = transform.position;
@@ -72,7 +74,7 @@ public class OTO_PlayerInformation : MonoBehaviour
         pinput.SetAccSpeed(pinput.GetAccSpeed() * 1.5f);
         fAttackPower = fAttackPower * 1.5f;
     }
-    private void PressAButton()
+    public void PressAButton()
     {
         if (bIsJumped == false)
         {
@@ -83,32 +85,33 @@ public class OTO_PlayerInformation : MonoBehaviour
 
     public void Anim_CanMove()
     {
-        pinput.IsCanMove = true;
+        if(SceneManager.GetActiveScene().name == "OTO")
+            pinput.IsCanMove = true;
     }
     private void ButtonInput()
     {
-        if (PlayerIndex == 0)
-        {
-            if (Input.GetKeyDown(KeyCode.A))
-            {
-                PressAButton();
-            }
-            if (Input.GetKeyDown(KeyCode.S))
-            {
-                PressBButton();
-            }
-        }
-        else
-        {
-            if (Input.GetButtonDown(InputPath + "_Button_A"))
-            {
-                PressAButton();
-            }
-            if (Input.GetButtonDown(InputPath + "_Button_B"))
-            {
-                PressBButton();
-            }
-        }
+        //if (PlayerIndex == 0)
+        //{
+        //    if (Input.GetKeyDown(KeyCode.A))
+        //    {
+        //        PressAButton();
+        //    }
+        //    if (Input.GetKeyDown(KeyCode.S))
+        //    {
+        //        PressBButton();
+        //    }
+        //}
+        //else
+        //{
+        //    if (Input.GetButtonDown(InputPath + "_Button_A"))
+        //    {
+        //        PressAButton();
+        //    }
+        //    if (Input.GetButtonDown(InputPath + "_Button_B"))
+        //    {
+        //        PressBButton();
+        //    }
+        //}
     }
     private void AnimationFunction()
     {
@@ -129,21 +132,27 @@ public class OTO_PlayerInformation : MonoBehaviour
     }
     public void Anim_AttackEndEvent()
     {
-        print("asd");
-        pinput.IsCanMove = true;
+        if (SceneManager.GetActiveScene().name == "OTO")
+            pinput.IsCanMove = true;
     }
     public void Anim_StunedEvent()
     {
-        Anim.SetInteger("StunState", 2);
-        Invoke("StunDisable", fStunTime);
+        if (SceneManager.GetActiveScene().name == "OTO")
+        {
+            Anim.SetInteger("StunState", 2);
+            Invoke("StunDisable", fStunTime);
+        }
     }
     private void StunDisable()
     {
-        Anim.SetInteger("StunState", 0);
+        if (SceneManager.GetActiveScene().name == "OTO")
+        {
+            Anim.SetInteger("StunState", 0);
 
-        bIsHit = false;
-        pinput.IsCanMove = true;
-        bIsIdle = true;
+            bIsHit = false;
+            pinput.IsCanMove = true;
+            bIsIdle = true;
+        }
     }
 
     private void JumpMovement()
@@ -219,7 +228,7 @@ public class OTO_PlayerInformation : MonoBehaviour
         Anim.SetTrigger("IsStun");
         bIsHit = true;
     }
-    private void PressBButton()
+    public void PressBButton()
     {
         if (pinput.IsCanMove == true&& bIsIdle == true)
         {
@@ -229,29 +238,39 @@ public class OTO_PlayerInformation : MonoBehaviour
 
     public void Anim_EndEvent()
     {
-        pinput.IsCanMove = true;
-        bIsIdle = true;
+        if (SceneManager.GetActiveScene().name == "OTO")
+        {
+            pinput.IsCanMove = true;
+            bIsIdle = true;
+        }
     }
     public void Anim_StartEvent()
     {
-        pinput.IsCanMove = false;
-        bIsIdle = false;
+        if (SceneManager.GetActiveScene().name == "OTO")
+        {
+            pinput.IsCanMove = false;
+            bIsIdle = false;
+        }
     }
     public void Anim_AttackEvent()
     {
-        RaycastHit[] Hit = Physics.RaycastAll(transform.position+new Vector3(0,1.5f,0), transform.forward, 2.0f);
-        Debug.DrawRay(transform.position + new Vector3(0, 1.5f, 0), transform.forward * 2.0f, Color.red, 3.0f);
-        for (int i = 0; i < Hit.Length; i++)
+
+        if (SceneManager.GetActiveScene().name == "OTO")
         {
-            if (Hit[i].collider.CompareTag("Player"))
+            RaycastHit[] Hit = Physics.RaycastAll(transform.position + new Vector3(0, 1.5f, 0), transform.forward, 2.0f);
+            Debug.DrawRay(transform.position + new Vector3(0, 1.5f, 0), transform.forward * 2.0f, Color.red, 3.0f);
+            for (int i = 0; i < Hit.Length; i++)
             {
-                OTO_PlayerInformation HitPlayer = Hit[i].collider.GetComponent<OTO_PlayerInformation>();
-                if (HitPlayer.bIsHit == false)
+                if (Hit[i].collider.CompareTag("Player"))
                 {
-                    print("AttackHit");
-                    HitPlayer.JumpEvent();
-                    HitPlayer.EventHit(transform.forward, fAttackPower);
-                    OTO_SoundManager.instance.CallPunch();
+                    OTO_PlayerInformation HitPlayer = Hit[i].collider.GetComponent<OTO_PlayerInformation>();
+                    if (HitPlayer.bIsHit == false)
+                    {
+                        print("AttackHit");
+                        HitPlayer.JumpEvent();
+                        HitPlayer.EventHit(transform.forward, fAttackPower);
+                        OTO_SoundManager.instance.CallPunch();
+                    }
                 }
             }
         }
@@ -259,7 +278,7 @@ public class OTO_PlayerInformation : MonoBehaviour
     private void FallDownToWater()
     {
         Effect_Object_Twinkle Clone = transform.gameObject.AddComponent<Effect_Object_Twinkle>();
-        Clone.Init(8,true,vOriginPos);
+        Clone.Init(8,true, vOriginPos);
         AddScore(-1);
         StartCoroutine(FreezeMove(1.6f));
         OTO_SoundManager.instance.CallDive();
@@ -270,6 +289,7 @@ public class OTO_PlayerInformation : MonoBehaviour
         yield return new WaitForSeconds(_Time);
         pinput.IsCanMove = true;
         rigid.velocity = new Vector3(0, 0, 0);
+        transform.position = vOriginPos;
         yield return 0 ;
     }
 }

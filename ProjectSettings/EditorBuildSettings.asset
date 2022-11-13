@@ -15,6 +15,9 @@ EditorBuildSettings:
     path: Assets/Scenes/OTO.unity
     guid: f02545704ea2aec4d86fc25ed7f5372a
   - enabled: 1
+    path: Assets/Scenes/GameExplaneScene.unity
+    guid: d60d750d81b764d4d871ef391affba47
+  - enabled: 1
     path: Assets/Scenes/EndingScene.unity
     guid: 53f392841a21a3740ade4243b7a63639
   m_configObjects: {}

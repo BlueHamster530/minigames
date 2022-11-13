@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class Playerinput : MonoBehaviour
 {
@@ -8,7 +10,11 @@ public class Playerinput : MonoBehaviour
     Rigidbody rigid;
     [SerializeField]
     float Speed = 5.0f;
-    Vector3 Dir = Vector3.zero;
+
+    public Vector3 Dir = Vector3.zero;
+
+    string NowScneneName;
+
     [SerializeField]
     float jumpHight = 3.0f;
     [SerializeField]
@@ -24,6 +30,41 @@ public class Playerinput : MonoBehaviour
     [SerializeField]
     float MaxSpeed;
 
+    [SerializeField]
+    bool IsSKALGame;
+    [SerializeField]
+    bool IsMain;
+    [SerializeField]
+    bool ISOTOGame;
+    [SerializeField]
+    bool IsGameExplane;
+    [SerializeField]
+    bool IsEnding;
+
+    [SerializeField]
+    LobiInfomation Lobiinfo;
+    [SerializeField]
+    SKALPlayerInfomation skalinfo;
+    [SerializeField]
+    OTO_PlayerInformation otoinfo;
+    [SerializeField]
+    Gameexplaneinfomation explaneinfo;
+
+    Animator Anim;
+
+    [SerializeField]
+    GameObject IndexImage;
+    [SerializeField]
+    Sprite[] indeximages;
+
+    [SerializeField]
+    public RuntimeAnimatorController MainAnim;
+    [SerializeField]
+    public RuntimeAnimatorController SkalAnim;
+    [SerializeField]
+    public RuntimeAnimatorController OtoAnim;
+    [SerializeField]
+    public RuntimeAnimatorController EndingAnim;
 
     public float fNowSpeed;
     public bool IsCanMove { get; set; } = false;
@@ -32,87 +73,165 @@ public class Playerinput : MonoBehaviour
     {
         return PlayerIndex;
     }
+    public void SetPlayerInDex(int num)
+    {
+        PlayerIndex = num;
+    }
     public float GetAccSpeed()
     {
         return fAccSpeed;
     }
-    void Start()
+
+    private void LoadedsceneEvent(Scene scene, LoadSceneMode mode)
+    {
+        SceneChangeInit();
+    }
+
+    public void SceneChangeInit()
+    {
+        IsSKALGame = false;
+        ISOTOGame = false;
+        IsMain = false;
+        IsGameExplane = false;
+        IsEnding = false;
+        skalinfo.enabled = false;
+        otoinfo.enabled = false;
+        Lobiinfo.enabled = false;
+        explaneinfo.enabled = false;
+        NowScneneName = SceneManager.GetActiveScene().name;
+        MaxSpeed = 8.0f;
+        switch (NowScneneName)
+        {
+            case "MainScene":
+                {
+                    IsMain = true;
+                    Lobiinfo.enabled = true;
+                    Anim.runtimeAnimatorController = MainAnim;
+                    MaxSpeed = 0.0f;
+                    transform.position = CharaterManager.instance.MainSpawnPosition[PlayerIndex-1];
+                    transform.eulerAngles = CharaterManager.instance.MainSpawnRotate[PlayerIndex - 1];
+                }
+                break;
+            case "GameExplaneScene":
+                {
+                    IsGameExplane = true;
+                    explaneinfo.enabled = true;
+                    MaxSpeed = 0.0f;
+                }
+                break;
+            case "SKAL":
+                {
+                    IsSKALGame = true;
+                    Anim.runtimeAnimatorController = SkalAnim;
+                    skalinfo.enabled = true;
+                    transform.position = CharaterManager.instance.SKALSpawnPosition[PlayerIndex - 1];
+                    GameObject clone = Instantiate(IndexImage, this.transform.position + new Vector3(0, 5,0), Quaternion.Euler(new Vector3(90.0f,0,0)));
+                    clone.GetComponent<SpriteRenderer>().sprite = indeximages[PlayerIndex - 1];
+                    Destroy(clone, 2.0f);
+
+                }
+                break;
+            case "OTO":
+                {
+                    ISOTOGame = true;
+                    otoinfo.enabled = true;
+                    Anim.runtimeAnimatorController = OtoAnim;
+                    transform.position = CharaterManager.instance.OTOSpawnPosition[PlayerIndex - 1];
+                    GameObject clone = Instantiate(IndexImage, this.transform.position + new Vector3(0, 5,0), Quaternion.Euler(new Vector3(90.0f, 0, 0)));
+                    clone.GetComponent<SpriteRenderer>().sprite = indeximages[PlayerIndex - 1];
+                    Destroy(clone, 2.0f);
+                }
+                break;
+            case "EndingScene":
+                {
+                    IsEnding = true;
+                    MaxSpeed = 0.0f;
+                    Anim.runtimeAnimatorController = EndingAnim;
+                    transform.position = CharaterManager.instance.EndingSpawnPosition[PlayerIndex - 1];
+                    transform.eulerAngles = CharaterManager.instance.EndingSpawnRotate[PlayerIndex - 1];
+                }
+                break;
+                
+        }
+    }
+    private void OnDestroy()
+    {
+
+        SceneManager.sceneLoaded -= LoadedsceneEvent;
+    }
+    public void Awake()
     {
         originPos = transform.position;
         rigid = GetComponent<Rigidbody>();
         IsGrounded = false;
-        IsCanMove = false;
+        IsCanMove = true;
         fCanMoveTime = 3.0f;
         fAccSpeed = 1.0f;
         fNowSpeed = 0;
-        print("PAD" + PlayerIndex.ToString());
+        MaxSpeed = 8.0f;
+        Anim = GetComponent<Animator>();
 
+        if (CharaterManager.instance == null)
+            return;
+        SceneChangeInit();
+        SceneManager.sceneLoaded += LoadedsceneEvent;
+        int index = CharaterManager.instance.PlayerCharacterIndex[PlayerIndex];
         for (int i = 0; i < 6; i++)
         {
             transform.GetChild(0).GetChild(i).gameObject.SetActive(false);
         }
-        int index = CharaterManager.instance.PlayerCharacterIndex[PlayerIndex-1];
-        print(index);
         transform.GetChild(0).GetChild(index).gameObject.SetActive(true);
+    }
+    public void OnPressAButton()
+    {
+        if (IsMain == true)
+        {
+            Lobiinfo.PressAButton();
+        }
+        if (IsGameExplane == true)
+        {
+            explaneinfo.PressAButton();
+        }
+        if (IsSKALGame == true)
+        {
+            skalinfo.PressAButton();
+        }
+        if (ISOTOGame == true)
+        {
+            otoinfo.PressAButton();
+        }
+    }
+    public void OnPressBButton()
+    {
+        if (IsMain == true)
+        {
+            Lobiinfo.PressBButton();
+        }
+        if (IsGameExplane == true)
+        {
+            explaneinfo.PressBButton();
+        }
+        if (IsSKALGame == true)
+        {
+            skalinfo.PressBButton();
+        }
+        if (ISOTOGame == true)
+        {
+            otoinfo.PressBButton();
+        }
     }
     public void SetAccSpeed(float _value)
     {
         fAccSpeed = _value;
     }
-    private void DebuffFunction()
+   public void OnMove(InputAction.CallbackContext context)
     {
-        //if (IsCanMove == false)
-        //{
-        //    fCanMoveTime -= Time.deltaTime;
-        //    if (fCanMoveTime <= 0)
-        //    {
-        //        fCanMoveTime = 0;
-        //        IsCanMove = true;
-        //    }
-        //}
-    }
-    private void KeyboardInput()
-    {
-        CheckGrounded();
-        if (IsCanMove == false)
-        {
-            Dir = Vector3.zero;
-            fNowSpeed = 0.0f;
-            return;
-        }
-
-        Dir.x = Input.GetAxisRaw("Horizontal");
-        Dir.z = Input.GetAxisRaw("Vertical");
-        if (Dir != Vector3.zero)
-        {
-            transform.forward = Dir;
-            if (IsCanMove == true)
-            {
-                fNowSpeed = 1.0f;
-            }
-            else
-            {
-                fNowSpeed = 0.0f;
-            }
-        }
-        else
-        {
-            fNowSpeed = 0.0f;
-        }
-        if (Dir.x != 0)
-        {
-             rigid.AddForce(Vector3.right * Dir.x * Speed* fAccSpeed * Time.deltaTime);
-        }
-        if (Dir.z != 0)
-        {
-              rigid.AddForce(Vector3.forward * Dir.z * Speed * fAccSpeed * Time.deltaTime);
-        }
-        rigid.velocity = Vector3.ClampMagnitude(rigid.velocity, MaxSpeed);
-        //  rigid.velocity = new Vector3(Dir.x, 0, Dir.z) * Speed * SpeefAcc * Time.deltaTime;
-
+        Vector2 movement = context.ReadValue<Vector2>();
+        Dir = new Vector3(movement.x, 0, movement.y);
     }
     private void MovementKeyInput()
     {
+        if (IsMain == true|| IsEnding == true) return;
         CheckGrounded();
         if (IsCanMove == false)
         {
@@ -120,13 +239,7 @@ public class Playerinput : MonoBehaviour
             fNowSpeed = 0.0f;
             return;
         }
-        string InputPath = "PAD" + PlayerIndex.ToString();
-        Dir.x = Input.GetAxis(InputPath+"_DPAD_Horizontal");
-        Dir.z = Input.GetAxis(InputPath + "_DPAD_Vertical");
-        if (Dir.x == 0)
-            Dir.x = Input.GetAxisRaw(InputPath + "_LSTICK_Horizontal");
-        if (Dir.z == 0)
-            Dir.z = Input.GetAxisRaw(InputPath + "_LSTICK_Vertical");
+
         if (Dir != Vector3.zero)
         {
             transform.forward = Dir;
@@ -149,24 +262,19 @@ public class Playerinput : MonoBehaviour
             rigid.AddForce(Vector3.forward * Dir.z * Speed * fAccSpeed * Time.deltaTime);
         }
         rigid.velocity = Vector3.ClampMagnitude(rigid.velocity, MaxSpeed);
-        //  rigid.velocity = new Vector3(Dir.x, 0, Dir.z) * Speed * SpeefAcc * Time.deltaTime;
 
     }
     private void FixedUpdate()
     {
-        if (PlayerIndex != 0)
-        {
-            MovementKeyInput();
-        }
-        if (PlayerIndex == 0)
-        {
-            KeyboardInput();
-        }
+        MovementKeyInput();
     }
     // Update is called once per frame
     void Update()
     {
-        DebuffFunction();
+        if (NowScneneName != SceneManager.GetActiveScene().name)
+        {
+            SceneChangeInit();
+        }
     }
     private void CheckGrounded()
     {

@@ -26,7 +26,7 @@ public class SKALGameManager : MonoBehaviour
     int nPlayersIndex=2;
 
     [SerializeField]
-    Playerinput[] Players;
+    Playerinput[] Players = new Playerinput[4];
 
     [SerializeField]
     Sprite[] countdowniamge;
@@ -37,10 +37,7 @@ public class SKALGameManager : MonoBehaviour
     {
         fCurrentTime = fGamePlayTime;
         nPlayersIndex = CharaterManager.instance.MaxPlayerIndex;
-        for (int i = 0; i < nPlayersIndex; i++)
-        {
-            Players[i].gameObject.SetActive(true);
-        }
+
         IsGamePause = true;
         bIsRaglanok = false;
         RaglanokImage.SetActive(false);
@@ -48,9 +45,14 @@ public class SKALGameManager : MonoBehaviour
         countdown.gameObject.SetActive(true);
         countdown.sprite = countdowniamge[2];
     }
+    public void AddPlayerinput(int index, Playerinput input)
+    {
+        Players[index] = input;
+    }
     IEnumerator GameStartCount()
     {
 
+        print("asd3");
         for (int i = 0; i < nPlayersIndex; i++)
         {
             Players[i].IsCanMove = false;
@@ -116,6 +118,7 @@ public class SKALGameManager : MonoBehaviour
         for (int i = 0; i < nPlayersIndex; i++)
         {
             CharaterManager.instance.PlayerScore[i] += Ranking[i];
+            print(i.ToString() + " : " + CharaterManager.instance.PlayerScore[i]);
         }
 
         CharaterManager.instance.RefreashRank();

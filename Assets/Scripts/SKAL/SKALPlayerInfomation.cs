@@ -1,12 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SKALPlayerInfomation : MonoBehaviour
 {
     Playerinput pinput;
-    string InputPath;
-
     bool IsDrink;
     [SerializeField]
     int nBottleCount;
@@ -22,9 +21,7 @@ public class SKALPlayerInfomation : MonoBehaviour
     float fStunTime = 2.0f;
     SKALGameManager skalManager;
 
-    [SerializeField]
     SKALUiController UiController;
-    [SerializeField]
     GameObject PlayerCanvas;
 
     bool bIsIdle;
@@ -33,24 +30,30 @@ public class SKALPlayerInfomation : MonoBehaviour
     Animator Anim;
 
     Rigidbody rigid;
-
-    private void Start()
+    private void OnEnable()
     {
         pinput = GetComponent<Playerinput>();
         rigid = GetComponent<Rigidbody>();
-        skalManager = GameObject.Find("GameManager").GetComponent<SKALGameManager>();
-        UiController.gameObject.SetActive(true);
-        PlayerCanvas.gameObject.SetActive(true);
-        UiController.Init(this);
-        PlayerIndex = pinput.GetPlayerInDex();
-        InputPath = "PAD" + PlayerIndex.ToString();
         nScore = 0;
+        skalManager = GameObject.Find("GameManager").GetComponent<SKALGameManager>();
+        PlayerIndex = pinput.GetPlayerInDex();
+
+        skalManager.AddPlayerinput(PlayerIndex-1, pinput);
+        UiController = GameObject.Find("PlayerInfos").transform.GetChild(PlayerIndex-1).GetComponent<SKALUiController>();
+        UiController.gameObject.SetActive(true);
+        PlayerCanvas = GameObject.Find("PlayersCanvas").transform.GetChild(PlayerIndex - 1).gameObject;
+        PlayerCanvas.gameObject.SetActive(true);
+        PlayerCanvas.GetComponent<SKALPlayerUILock>().target = this.transform;
+        UiController.Init(this);
         SetIsDrink(false);
         nBottleCount = 0;
         nintoxicationStack = 0;
         IsNearInBarTable = false;
         IsNearInTable = false;
         bIsIdle = true;
+    }
+    private void Start()
+    {
     }
     private void AnimationFunction()
     {
@@ -74,32 +77,32 @@ public class SKALPlayerInfomation : MonoBehaviour
     }
     private void ButtonInput()
     {
-        if (PlayerIndex == 0)
-        {
-            if (Input.GetKeyDown(KeyCode.A))
-            {
-                PressAButton();
-            }
-            if (Input.GetKeyDown(KeyCode.S))
-            {
-                PressBButton();
-            }
-        }
-        else
-        {
-            if (Input.GetButtonDown(InputPath + "_Button_A"))
-            {
-                PressAButton();
-            }
-            if (Input.GetButtonDown(InputPath + "_Button_B"))
-            {
-                PressBButton();
-                //Vector3 jumpvelocity = Vector3.up * Mathf.Sqrt(jumpHight * -Physics.gravity.y);
-                //rigid.AddForce(jumpvelocity, ForceMode.VelocityChange);
-            }
-        }
+        //if (PlayerIndex == 0)
+        //{
+        //    if (Input.GetKeyDown(KeyCode.A))
+        //    {
+        //        PressAButton();
+        //    }
+        //    if (Input.GetKeyDown(KeyCode.S))
+        //    {
+        //        PressBButton();
+        //    }
+        //}
+        //else
+        //{
+        //    if (Input.GetButtonDown(InputPath + "_Button_A"))
+        //    {
+        //        PressAButton();
+        //    }
+        //    if (Input.GetButtonDown(InputPath + "_Button_B"))
+        //    {
+        //        PressBButton();
+        //        //Vector3 jumpvelocity = Vector3.up * Mathf.Sqrt(jumpHight * -Physics.gravity.y);
+        //        //rigid.AddForce(jumpvelocity, ForceMode.VelocityChange);
+        //    }
+        //}
     }
-    private void PressAButton()
+    public void PressAButton()
     {
         if (IsNearInBarTable)
         {
@@ -112,7 +115,7 @@ public class SKALPlayerInfomation : MonoBehaviour
                 DrinkDrunk();
         }
     }
-    private void PressBButton()
+    public void PressBButton()
     {
         if (IsNearInTable)
         {
@@ -171,54 +174,77 @@ public class SKALPlayerInfomation : MonoBehaviour
     }
     public void Anim_DrinkEvent()
     {
-        nBottleCount--;
-        SKALSoundManager.instance.CallDrinking();
-        print("Anim_Drink");
-        if (nBottleCount <= 0)
+        if (SceneManager.GetActiveScene().name == "SKAL")
         {
-            nBottleCount = 0;
-            SetIsDrink(false);
-            AddintoxicationStack();
+            nBottleCount--;
+            SKALSoundManager.instance.CallDrinking();
+            print("Anim_Drink");
+            if (nBottleCount <= 0)
+            {
+                nBottleCount = 0;
+                SetIsDrink(false);
+                AddintoxicationStack();
+            }
         }
     }
     public void Anim_End()
     {
-        bIsIdle = true;
+        if (SceneManager.GetActiveScene().name == "SKAL")
+        {
+            bIsIdle = true;
+        }
     }
     public void Anim_AttackEvent()
     {
-        GenseiTable();
+        if (SceneManager.GetActiveScene().name == "SKAL")
+        {
+            GenseiTable();
+        }
     }
     public void Anim_StunedEvent()
     {
 
-        Anim.SetInteger("StunState", 2);
-        Invoke("StunDisable", fStunTime);
+        if (SceneManager.GetActiveScene().name == "SKAL")
+        {
+            Anim.SetInteger("StunState", 2);
+            Invoke("StunDisable", fStunTime);
+        }
     }
     private void StunDisable()
     {
-        Anim.SetInteger("StunState", 0);
+        if (SceneManager.GetActiveScene().name == "SKAL")
+        {
+            Anim.SetInteger("StunState", 0);
+        }
     }
     public void Anim_PickUpEvent()
     {
+        if (SceneManager.GetActiveScene().name == "SKAL")
+        {
             nBottleCount++;
             print("Anim_PickUpEvent");
-
-        SKALSoundManager.instance.CallRefill();
-        if (nBottleCount >= 3 + nintoxicationStack)
+            SKALSoundManager.instance.CallRefill();
+            if (nBottleCount >= 1 + nintoxicationStack)
             {
                 SetIsDrink(true);
+            }
         }
     }
     public void Anim_EndEvent()
     {
-        pinput.IsCanMove = true;
-        bIsIdle = true;
+        if (SceneManager.GetActiveScene().name == "SKAL")
+        {
+            pinput.IsCanMove = true;
+            bIsIdle = true;
+        }
     }
     public void Anim_StartEvent()
     {
-        pinput.IsCanMove = false;
-        bIsIdle = false;
+        if (SceneManager.GetActiveScene().name == "SKAL")
+        {
+            pinput.IsCanMove = false;
+            bIsIdle = false;
+        }
     }
     private void ReFillDrink()
     {

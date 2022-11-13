@@ -12,21 +12,36 @@ public class EndingManager : MonoBehaviour
     Sprite[] rankimage;
 
     [SerializeField]
-    GameObject[] playerobject;
-    [SerializeField]
     GameObject[] playerNAmeObject;
+
 
     float returntime;
     // Start is called before the first frame update
     void Start()
     {
-        returntime = 10.0f;
+        int[] Ranking = { 1, 1, 1, 1 };
         for (int i = 0; i < CharaterManager.instance.MaxPlayerIndex; i++)
         {
+            Ranking[i] = 1;
+            for (int ii = 0; ii < CharaterManager.instance.MaxPlayerIndex; ii++)
+            {
+                if (CharaterManager.instance.PlayerScore[i] > CharaterManager.instance.PlayerScore[ii])
+                {
+                    Ranking[i]++;
+                }
+            }
+        }
+        returntime =10.0f;
+
+
+
+        for (int i = 0; i < CharaterManager.instance.MaxPlayerIndex; i++)
+        {
+
+            int index = CharaterManager.instance.PlayerCharacterIndex[i];
             playerranks[i].gameObject.SetActive(true);
-            playerobject[i].SetActive(true);
             playerNAmeObject[i].SetActive(true);
-            playerranks[i].sprite = rankimage[CharaterManager.instance.Ranking[i]];
+            playerranks[i].sprite = rankimage[Ranking[i]-1];
         }
     }
 
@@ -35,6 +50,7 @@ public class EndingManager : MonoBehaviour
         returntime -= Time.deltaTime;
         if (returntime <= 0)
         {
+            CharaterManager.instance.GetComponent<InputSystemgamemanagertest>().DeleatAllDevide();
             CharaterManager.instance.ChangeScene("MainScene");
         }
     }

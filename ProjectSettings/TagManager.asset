@@ -8,6 +8,10 @@ TagManager:
   - OTO_Paddle
   - OTO_Boat
   - FallGround
+  - Player1
+  - Player2
+  - Player3
+  - Player4
   layers:
   - Default
   - TransparentFX

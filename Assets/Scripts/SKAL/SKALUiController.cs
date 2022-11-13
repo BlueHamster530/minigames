@@ -29,7 +29,7 @@ public class SKALUiController : MonoBehaviour
         ScoreText.text = PlayerInfo.nScore.ToString();
         float bottleValue = PlayerInfo.GetnBottleCount();
         float GetnintoxicationStackvalue = PlayerInfo.GetnintoxicationStack();
-        DrinkSlider.value = bottleValue /(3.0f+ GetnintoxicationStackvalue);
+        DrinkSlider.value = bottleValue /(1.0f+ GetnintoxicationStackvalue);
         intoxicationStackSlider.value = ((float)PlayerInfo.GetnintoxicationStack()) / 5.0f;
         intoxicationStackText.text = PlayerInfo.GetnintoxicationStack().ToString()+"/5";
 

@@ -5,8 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class CharaterManager : MonoBehaviour
 {
-
     static public CharaterManager instance;
+    public Vector3[] MainSpawnPosition;
+    public Vector3[] MainSpawnRotate;
+    public Vector3[] SKALSpawnPosition;
+    public Vector3[] OTOSpawnPosition;
+    public Vector3[] EndingSpawnPosition;
+    public Vector3[] EndingSpawnRotate;
+
     public int[] PlayerCharacterIndex = new int[4];
     public int MaxPlayerIndex;
     public string NextSceneName;
@@ -16,10 +22,18 @@ public class CharaterManager : MonoBehaviour
 
     public bool IsReMatch;
     public bool IsJoonBok;
+
+    public bool IsInputEventDone;
     // Start is called before the first frame update
     void Awake()
     {
+        if (instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
         instance = this;
+        IsInputEventDone = false;
         DontDestroyOnLoad(gameObject);
     }
     public void ChangeScene(string _Name)

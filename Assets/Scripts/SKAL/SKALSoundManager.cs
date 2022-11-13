@@ -16,7 +16,7 @@ public class SKALSoundManager : MonoBehaviour
 
     [SerializeField]
     GameObject SoundPRefab;
-    private void Start()
+    private void Awake()
     {
         instance = this;
     }

@@ -21,7 +21,7 @@ public class OTO_GameManger : MonoBehaviour
     // Start is called before the first frame update
 
     [SerializeField]
-    GameObject[] Players;
+    Playerinput[] Players = new Playerinput[4];
 
     [SerializeField]
     int nPlayersIndex = 2;
@@ -37,10 +37,6 @@ public class OTO_GameManger : MonoBehaviour
     {
         fCurrentTime = fGamePlayTime;
         nPlayersIndex = CharaterManager.instance.MaxPlayerIndex;
-        for (int i = 0; i < nPlayersIndex; i++)
-        {
-            Players[i].gameObject.SetActive(true);
-        }
         IsGamePause = true;
         bIsRaglanok = false;
         RaglanokImage.SetActive(false);
@@ -48,16 +44,25 @@ public class OTO_GameManger : MonoBehaviour
         countdown.gameObject.SetActive(true);
         countdown.sprite = countdowniamge[2];
     }
+    public void AddPlayerinput(int index, Playerinput input)
+    {
+        Players[index] = input;
+    }
     IEnumerator GameStartCount()
     {
+        for (int i = 0; i < nPlayersIndex; i++)
+        {
+            Players[i].IsCanMove = false;
+        }
         for (int i = 2; i >= 0; i--)
         {
             countdown.sprite = countdowniamge[i];
             yield return new WaitForSeconds(1);
         }
-        for (int i = 0; i < Players.Length; i++)
+        for (int i = 0; i < nPlayersIndex; i++)
         {
-            Players[i].GetComponent<Playerinput>().IsCanMove = true;
+            Players[i].IsCanMove = true;
+            Players[i].GetComponent<OTO_PlayerInformation>().vOriginPos = Players[i].transform.position;
         }
         countdown.gameObject.SetActive(false);
         IsGamePause = false;
@@ -65,7 +70,7 @@ public class OTO_GameManger : MonoBehaviour
     }
     private void UpdateGUI()
     {
-        TimeText.text = Mathf.FloorToInt(fCurrentTime / 60.0f).ToString() + ":" + Mathf.FloorToInt(fCurrentTime % 60.0f).ToString();
+        TimeText.text = Mathf.FloorToInt(fCurrentTime / 60.0f).ToString() + ":" + Mathf.FloorToInt(fCurrentTime % 60.0f).ToString("00");
         TimeBar.value = (fCurrentTime / fGamePlayTime);
 
     }
@@ -97,7 +102,7 @@ public class OTO_GameManger : MonoBehaviour
             Ranking[i] = 1;
             for (int ii = 0; ii < nPlayersIndex; ii++)
             {
-                if (Players[i].gameObject.GetComponent<SKALPlayerInfomation>().nScore < Players[ii].gameObject.GetComponent<SKALPlayerInfomation>().nScore)
+                if (Players[i].gameObject.GetComponent<OTO_PlayerInformation>().nScore < Players[ii].gameObject.GetComponent<OTO_PlayerInformation>().nScore)
                 {
                     Ranking[i]++;
                 }
@@ -107,7 +112,9 @@ public class OTO_GameManger : MonoBehaviour
         for (int i = 0; i < nPlayersIndex; i++)
         {
             CharaterManager.instance.PlayerScore[i] += Ranking[i];
+            print(i.ToString() +" : " +CharaterManager.instance.PlayerScore[i]);
         }
+
 
         CharaterManager.instance.RefreashRank();
         if (CharaterManager.instance.IsReMatch == false)
