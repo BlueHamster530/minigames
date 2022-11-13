@@ -1968,7 +1968,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04a734dac3c15ac42994a5f6d4f79b3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DrinkSlider: {fileID: 186807354}
+  DrinkSlider: {fileID: 1603813705}
   intoxicationStackSlider: {fileID: 6318852}
   ScoreText: {fileID: 706396661}
   intoxicationStackText: {fileID: 1487848519}
@@ -5516,7 +5516,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04a734dac3c15ac42994a5f6d4f79b3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DrinkSlider: {fileID: 186807354}
+  DrinkSlider: {fileID: 937284157}
   intoxicationStackSlider: {fileID: 617178320}
   ScoreText: {fileID: 1297545597}
   intoxicationStackText: {fileID: 2044430816}

@@ -22,8 +22,14 @@ public class CharaterManager : MonoBehaviour
 
     public bool IsReMatch;
     public bool IsJoonBok;
-
-    public bool IsInputEventDone;
+    public void ResetScore()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            PlayerScore[i] =0;
+            Ranking[i] = 0;
+}
+    }
     // Start is called before the first frame update
     void Awake()
     {
@@ -33,7 +39,6 @@ public class CharaterManager : MonoBehaviour
             return;
         }
         instance = this;
-        IsInputEventDone = false;
         DontDestroyOnLoad(gameObject);
     }
     public void ChangeScene(string _Name)
@@ -54,14 +59,25 @@ public class CharaterManager : MonoBehaviour
             }
         }
         IsJoonBok = false;
+        int _max = 0;
+
         for (int i = 0; i < MaxPlayerIndex; i++)
         {
-            for (int ii = 0; ii < MaxPlayerIndex; ii++)
-            {
-                if (i == ii) continue;
-                if (Ranking[i] == Ranking[ii])
-                    IsJoonBok = true;
-            }
+            if (Ranking[i] > _max)
+                _max = Ranking[i];
+        }
+            for (int i = 0; i < MaxPlayerIndex; i++)
+        {
+            print($"{i} : {Ranking[i]}");
+                for (int ii = 0; ii < MaxPlayerIndex; ii++)
+                {
+                    if (i == ii) continue;
+                        if (Ranking[i] == Ranking[ii])
+                        {
+                            if(Ranking[i] == _max)
+                            IsJoonBok = true;
+                        }
+                }
         }
     }
     public void ReMatchEvent()

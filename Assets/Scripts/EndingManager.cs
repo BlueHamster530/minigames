@@ -31,7 +31,7 @@ public class EndingManager : MonoBehaviour
                 }
             }
         }
-        returntime =10.0f;
+        returntime =5.0f;
 
 
 
@@ -50,7 +50,6 @@ public class EndingManager : MonoBehaviour
         returntime -= Time.deltaTime;
         if (returntime <= 0)
         {
-            CharaterManager.instance.GetComponent<InputSystemgamemanagertest>().DeleatAllDevide();
             CharaterManager.instance.ChangeScene("MainScene");
         }
     }

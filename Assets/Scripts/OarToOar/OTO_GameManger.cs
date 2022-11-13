@@ -112,7 +112,6 @@ public class OTO_GameManger : MonoBehaviour
         for (int i = 0; i < nPlayersIndex; i++)
         {
             CharaterManager.instance.PlayerScore[i] += Ranking[i];
-            print(i.ToString() +" : " +CharaterManager.instance.PlayerScore[i]);
         }
 
 

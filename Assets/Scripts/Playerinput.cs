@@ -75,7 +75,15 @@ public class Playerinput : MonoBehaviour
     }
     public void SetPlayerInDex(int num)
     {
+        print(num);
         PlayerIndex = num;
+        int index = PlayerIndex-1;
+
+        for (int i = 0; i < 6; i++)
+        {
+            transform.GetChild(0).GetChild(i).gameObject.SetActive(false);
+        }
+        transform.GetChild(0).GetChild(index).gameObject.SetActive(true);
     }
     public float GetAccSpeed()
     {
@@ -105,7 +113,10 @@ public class Playerinput : MonoBehaviour
             case "MainScene":
                 {
                     IsMain = true;
+                    print("1111");
                     Lobiinfo.enabled = true;
+                    print("333");
+
                     Anim.runtimeAnimatorController = MainAnim;
                     MaxSpeed = 0.0f;
                     transform.position = CharaterManager.instance.MainSpawnPosition[PlayerIndex-1];
@@ -149,6 +160,7 @@ public class Playerinput : MonoBehaviour
                     Anim.runtimeAnimatorController = EndingAnim;
                     transform.position = CharaterManager.instance.EndingSpawnPosition[PlayerIndex - 1];
                     transform.eulerAngles = CharaterManager.instance.EndingSpawnRotate[PlayerIndex - 1];
+                    rigid.velocity = Vector3.zero;
                 }
                 break;
                 
@@ -175,13 +187,9 @@ public class Playerinput : MonoBehaviour
             return;
         SceneChangeInit();
         SceneManager.sceneLoaded += LoadedsceneEvent;
-        int index = CharaterManager.instance.PlayerCharacterIndex[PlayerIndex];
-        for (int i = 0; i < 6; i++)
-        {
-            transform.GetChild(0).GetChild(i).gameObject.SetActive(false);
-        }
-        transform.GetChild(0).GetChild(index).gameObject.SetActive(true);
+
     }
+    
     public void OnPressAButton()
     {
         if (IsMain == true)

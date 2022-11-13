@@ -30,13 +30,13 @@ public class SKALDrinkTable : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            if (Playerinfo[other.transform.GetComponent<SKALPlayerInfomation>().PlayerIndex] == null)
+            if (Playerinfo[other.transform.GetComponent<SKALPlayerInfomation>().PlayerIndex-1] == null)
             {
-                Playerinfo[other.transform.GetComponent<SKALPlayerInfomation>().PlayerIndex] = other.transform.GetComponent<SKALPlayerInfomation>();
+                Playerinfo[other.transform.GetComponent<SKALPlayerInfomation>().PlayerIndex-1] = other.transform.GetComponent<SKALPlayerInfomation>();
             }
             other.transform.GetComponent<SKALPlayerInfomation>().IsNearInTable = true;
             other.transform.GetComponent<SKALPlayerInfomation>().SetDrinkTable(this);
-            IsInSidePlayer[other.transform.GetComponent<SKALPlayerInfomation>().PlayerIndex] = true;
+            IsInSidePlayer[other.transform.GetComponent<SKALPlayerInfomation>().PlayerIndex-1] = true;
         }
     }
     private void OnTriggerExit(Collider other)
@@ -44,12 +44,12 @@ public class SKALDrinkTable : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             other.transform.GetComponent<SKALPlayerInfomation>().IsNearInTable = false;
-            IsInSidePlayer[other.transform.GetComponent<SKALPlayerInfomation>().PlayerIndex] = false;          
+            IsInSidePlayer[other.transform.GetComponent<SKALPlayerInfomation>().PlayerIndex-1] = false;          
             other.transform.GetComponent<SKALPlayerInfomation>().SetDrinkTable(null);
 
-            if (Playerinfo[other.transform.GetComponent<SKALPlayerInfomation>().PlayerIndex] != null)
+            if (Playerinfo[other.transform.GetComponent<SKALPlayerInfomation>().PlayerIndex-1] != null)
             {
-                Playerinfo[other.transform.GetComponent<SKALPlayerInfomation>().PlayerIndex] = null;
+                Playerinfo[other.transform.GetComponent<SKALPlayerInfomation>().PlayerIndex-1] = null;
             }
         }
     }

@@ -277,8 +277,8 @@ public class OTO_PlayerInformation : MonoBehaviour
     }
     private void FallDownToWater()
     {
-        Effect_Object_Twinkle Clone = transform.gameObject.AddComponent<Effect_Object_Twinkle>();
-        Clone.Init(8,true, vOriginPos);
+        //Effect_Object_Twinkle Clone = transform.gameObject.AddComponent<Effect_Object_Twinkle>();
+        //Clone.Init(8,true, vOriginPos);
         AddScore(-1);
         StartCoroutine(FreezeMove(1.6f));
         OTO_SoundManager.instance.CallDive();
@@ -288,7 +288,7 @@ public class OTO_PlayerInformation : MonoBehaviour
         pinput.IsCanMove = false;
         yield return new WaitForSeconds(_Time);
         pinput.IsCanMove = true;
-        rigid.velocity = new Vector3(0, 0, 0);
+        rigid.velocity = new Vector3(0, 1, 0);
         transform.position = vOriginPos;
         yield return 0 ;
     }

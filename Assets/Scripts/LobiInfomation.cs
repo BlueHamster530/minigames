@@ -19,12 +19,11 @@ public class LobiInfomation : MonoBehaviour
         lobimanager = GameObject.Find("Main Camera").GetComponent<LobiManager>();
         pinput = GetComponent<Playerinput>();
         index = pinput.GetPlayerInDex();
-        lobimanager.IsReady[index - 1] = IsReady;
-        lobimanager.readytext[index - 1].text = "Press A To Ready";
-        lobimanager.readytext[index - 1].gameObject.SetActive(true);
+        lobimanager.IsReady[index-1] = IsReady;
+        lobimanager.readytext[index-1].text = "Press A To Ready";
+        lobimanager.readytext[index-1].gameObject.SetActive(true);
         keydowncheck = false;
         keydowntick = 0.2f;
-        CharaterManager.instance.PlayerCharacterIndex[index - 1] = index - 1;
         ChacterChange(index-1);
     }
     // Start is called before the first frame update
@@ -110,13 +109,16 @@ public class LobiInfomation : MonoBehaviour
             lobimanager.IsReady[index - 1] = IsReady;
             lobimanager.readytext[index - 1].text = "Press A To Ready";
         }
-        else
-        {
-            lobimanager.readytext[index - 1].gameObject.SetActive(false);
-        }
     }
     public void TextOff()
     {
-        lobimanager.readytext[index - 1].gameObject.SetActive(false);
+        if (lobimanager == null)
+        {
+            lobimanager = GameObject.Find("Main Camera").GetComponent<LobiManager>();
+
+            print("offtest");
+        }
+        print("off");
+             lobimanager.readytext[index - 1].gameObject.SetActive(false);
     }
 }

@@ -1504,6 +1504,181 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 70156994}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &77278522
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 77278526}
+  - component: {fileID: 77278525}
+  - component: {fileID: 77278524}
+  - component: {fileID: 77278523}
+  m_Layer: 0
+  m_Name: CharaterManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &77278523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 77278522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 621567455fd1c4ceb811cc8a00b6a1a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_NotificationBehavior: 0
+  m_MaxPlayerCount: 5
+  m_AllowJoining: 1
+  m_JoinBehavior: 1
+  m_PlayerJoinedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_PlayerLeftEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_JoinAction:
+    m_UseReference: 0
+    m_Action:
+      m_Name: Join
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 23c46ed7-92f7-4321-97a1-9953a637bf59
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 0}
+  m_PlayerPrefab: {fileID: 6127145088178870340, guid: f4eabaa19c9e61e45b580ee57e7b64c2,
+    type: 3}
+  m_SplitScreen: 0
+  m_MaintainAspectRatioInSplitScreen: 0
+  m_FixedNumberOfSplitScreens: -1
+  m_SplitScreenRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+--- !u!114 &77278524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 77278522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4c445be3e7ea2044826fdcd349923d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerlist: []
+  joinAction:
+    m_Name: Join
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 806e0acd-7003-4f3e-98b5-14a0a52718fa
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 7d531430-cbb4-496c-8703-f44cf6a814e8
+      m_Path: <XInputController>/buttonSouth
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Join
+      m_Flags: 0
+    m_Flags: 0
+  leftAction:
+    m_Name: Left
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: dcb3132f-5225-44c7-83cf-19284e87d41e
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: d113431d-a5a6-401a-93b8-3fc785977b9b
+      m_Path: <XInputController>/buttonEast
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Left
+      m_Flags: 0
+    m_Flags: 0
+--- !u!114 &77278525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 77278522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c294669150b160848a882b143b3aa87f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MainSpawnPosition:
+  - {x: -81.284, y: 0.3, z: 155.5}
+  - {x: -80.60761, y: 0.23, z: 157.36317}
+  - {x: -78.99888, y: 0.25, z: 158.67963}
+  - {x: -77.154144, y: 0.25, z: 159.3949}
+  MainSpawnRotate:
+  - {x: 0, y: 127.47, z: 0}
+  - {x: 0, y: 137.57303, z: 0}
+  - {x: 0, y: 140.70436, z: 0}
+  - {x: 0, y: 170.39732, z: 0}
+  SKALSpawnPosition:
+  - {x: 12.51, y: 0, z: 0}
+  - {x: -14.62, y: 0, z: 0}
+  - {x: 0, y: 0, z: -8}
+  - {x: 0, y: 0, z: 8}
+  OTOSpawnPosition:
+  - {x: -20.13, y: -0.03999996, z: 16.8}
+  - {x: -20.13, y: -0.04, z: 10.83}
+  - {x: -20.13, y: -0.03999996, z: 4.15}
+  - {x: -20.13, y: -0.03999996, z: -3.38}
+  EndingSpawnPosition:
+  - {x: -83.127495, y: 0.26199996, z: 160.65596}
+  - {x: -81.8189, y: 0.27999997, z: 162.58208}
+  - {x: -80.618546, y: 0.28999996, z: 164.41914}
+  - {x: -79.323906, y: 0.27444232, z: 166.335}
+  EndingSpawnRotate:
+  - {x: 0, y: 106.94795, z: 0}
+  - {x: 0, y: 117.11708, z: 0}
+  - {x: 0, y: 133.68797, z: 0}
+  - {x: 0, y: 142.66643, z: 0}
+  PlayerCharacterIndex: 00000000000000000000000000000000
+  MaxPlayerIndex: 0
+  NextSceneName: 
+  PlayerScore: 00000000000000000000000000000000
+  Ranking: 00000000000000000000000000000000
+  IsReMatch: 0
+  IsJoonBok: 0
+--- !u!4 &77278526
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 77278522}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -86.15639, y: -5.2855716, z: 165.74652}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &78432628
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23235,198 +23410,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1442509699}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1445352412
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1445352414}
-  - component: {fileID: 1445352413}
-  - component: {fileID: 1445352416}
-  - component: {fileID: 1445352415}
-  m_Layer: 0
-  m_Name: CharaterManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1445352413
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1445352412}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c294669150b160848a882b143b3aa87f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MainSpawnPosition:
-  - {x: -81.284, y: 0.3, z: 155.5}
-  - {x: -80.60761, y: 0.23, z: 157.36317}
-  - {x: -78.99888, y: 0.25, z: 158.67963}
-  - {x: -77.154144, y: 0.25, z: 159.3949}
-  MainSpawnRotate:
-  - {x: 0, y: 127.47, z: 0}
-  - {x: 0, y: 137.57303, z: 0}
-  - {x: 0, y: 140.70436, z: 0}
-  - {x: 0, y: 170.39732, z: 0}
-  SKALSpawnPosition:
-  - {x: 12.51, y: 0, z: 0}
-  - {x: -14.62, y: 0, z: 0}
-  - {x: 0, y: 0, z: -8}
-  - {x: 0, y: 0, z: 8}
-  OTOSpawnPosition:
-  - {x: -20.13, y: -0.03999996, z: 16.8}
-  - {x: -20.13, y: -0.04, z: 10.83}
-  - {x: -20.13, y: -0.03999996, z: 4.15}
-  - {x: -20.13, y: -0.03999996, z: -3.38}
-  EndingSpawnPosition:
-  - {x: -83.127495, y: 0.26199996, z: 160.65596}
-  - {x: -81.8189, y: 0.27999997, z: 162.58208}
-  - {x: -80.618546, y: 0.28999996, z: 164.41914}
-  - {x: -79.323906, y: 0.27444232, z: 166.335}
-  EndingSpawnRotate:
-  - {x: 0, y: 106.94795, z: 0}
-  - {x: 0, y: 117.11708, z: 0}
-  - {x: 0, y: 133.68797, z: 0}
-  - {x: 0, y: 142.66643, z: 0}
-  PlayerCharacterIndex: 00000000000000000000000000000000
-  MaxPlayerIndex: 0
-  NextSceneName: 
-  PlayerScore: 00000000000000000000000000000000
-  Ranking: 00000000000000000000000000000000
-  IsReMatch: 0
-  IsJoonBok: 0
-  IsInputEventDone: 0
---- !u!4 &1445352414
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1445352412}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -86.15639, y: -5.2855716, z: 165.74652}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 8
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1445352415
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1445352412}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 621567455fd1c4ceb811cc8a00b6a1a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_NotificationBehavior: 0
-  m_MaxPlayerCount: 4
-  m_AllowJoining: 1
-  m_JoinBehavior: 1
-  m_PlayerJoinedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_PlayerLeftEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_JoinAction:
-    m_UseReference: 0
-    m_Action:
-      m_Name: Join
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: 23c46ed7-92f7-4321-97a1-9953a637bf59
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: 0}
-  m_PlayerPrefab: {fileID: 6127145088178870340, guid: f4eabaa19c9e61e45b580ee57e7b64c2,
-    type: 3}
-  m_SplitScreen: 0
-  m_MaintainAspectRatioInSplitScreen: 0
-  m_FixedNumberOfSplitScreens: -1
-  m_SplitScreenRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
---- !u!114 &1445352416
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1445352412}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4c445be3e7ea2044826fdcd349923d9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerlist: []
-  joinAction:
-    m_Name: Join
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 806e0acd-7003-4f3e-98b5-14a0a52718fa
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 
-      m_Id: fdb1640a-9d58-44c0-842d-6b86659dc5c8
-      m_Path: <Keyboard>/a
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Join
-      m_Flags: 0
-    - m_Name: 
-      m_Id: 7d531430-cbb4-496c-8703-f44cf6a814e8
-      m_Path: <XInputController>/buttonSouth
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Join
-      m_Flags: 0
-    m_Flags: 0
-  leftAction:
-    m_Name: Left
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: dcb3132f-5225-44c7-83cf-19284e87d41e
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 
-      m_Id: 8b0e11a5-258f-41ae-bf80-e4563850a4fb
-      m_Path: <Keyboard>/s
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Left
-      m_Flags: 0
-    - m_Name: 
-      m_Id: d113431d-a5a6-401a-93b8-3fc785977b9b
-      m_Path: <XInputController>/buttonEast
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Left
-      m_Flags: 0
-    m_Flags: 0
 --- !u!1001 &1452290976
 PrefabInstance:
   m_ObjectHideFlags: 0

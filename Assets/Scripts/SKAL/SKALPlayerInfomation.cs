@@ -21,7 +21,9 @@ public class SKALPlayerInfomation : MonoBehaviour
     float fStunTime = 2.0f;
     SKALGameManager skalManager;
 
+    [SerializeField]
     SKALUiController UiController;
+    [SerializeField]
     GameObject PlayerCanvas;
 
     bool bIsIdle;
@@ -41,10 +43,10 @@ public class SKALPlayerInfomation : MonoBehaviour
         skalManager.AddPlayerinput(PlayerIndex-1, pinput);
         UiController = GameObject.Find("PlayerInfos").transform.GetChild(PlayerIndex-1).GetComponent<SKALUiController>();
         UiController.gameObject.SetActive(true);
+        UiController.Init(this);
         PlayerCanvas = GameObject.Find("PlayersCanvas").transform.GetChild(PlayerIndex - 1).gameObject;
         PlayerCanvas.gameObject.SetActive(true);
         PlayerCanvas.GetComponent<SKALPlayerUILock>().target = this.transform;
-        UiController.Init(this);
         SetIsDrink(false);
         nBottleCount = 0;
         nintoxicationStack = 0;

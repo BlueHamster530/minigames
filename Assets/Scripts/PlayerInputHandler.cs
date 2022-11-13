@@ -10,10 +10,10 @@ public class PlayerInputHandler : MonoBehaviour
     public int playerindex;
     private void Awake()
     {
-        playerindex = CharaterManager.instance.MaxPlayerIndex;
+       // playerindex = CharaterManager.instance.MaxPlayerIndex;
         playerObject = transform.GetChild(0).gameObject;
         pinput = playerObject.GetComponent<Playerinput>();
-        pinput.SetPlayerInDex(playerindex);
+       // pinput.SetPlayerInDex(playerindex);
     }
     public void OnMove(InputAction.CallbackContext context)
     {

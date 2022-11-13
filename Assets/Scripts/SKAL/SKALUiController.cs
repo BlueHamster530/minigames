@@ -19,6 +19,7 @@ public class SKALUiController : MonoBehaviour
     public void Init(SKALPlayerInfomation _playerinfo)
     {
         PlayerInfo = _playerinfo;
+        print(PlayerInfo.PlayerIndex);
     }
     public void SetScoreText(int _value)
     {
